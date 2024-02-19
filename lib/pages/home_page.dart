@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kembang_belor_apps/models/edited_pariwisata.dart';
 import 'package:kembang_belor_apps/models/pariwisata.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,90 +7,128 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+
     return SafeArea(
         child: Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            child: Text(
-              'Explore \nKembang Belor',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
+          const Text(
+            'Explore \nKembang Belor',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'Pariwisata',
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           SizedBox(
-            height: 200,
+            height: size.height / 5,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: listPariwisata.length,
                 itemBuilder: (context, index) => Card(
                     elevation: 4,
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 20),
                       child: Row(
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: Image(
                               fit: BoxFit.fill,
-                              width: 70,
-                              height: 70,
+                              width: size.width / 5.84,
+                              height: size.height / 10.74,
                               image: AssetImage(
                                 listPariwisata[index]['imageUrl'].toString(),
                               ),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${listPariwisata[index]['nama']}',
-                                style: TextStyle(
-                                  fontSize: 18,
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${listPariwisata[index]['nama']}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Expanded(
-                                  child: Text(
-                                '${listPariwisata[index]['deskripsi']}',
-                              )),
-                              Text('${listPariwisata[index]['htm']}')
-                            ],
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Expanded(
+                                    child: Text(
+                                  listPariwisata[index]['deskripsi']
+                                              .toString()
+                                              .length >
+                                          15
+                                      ? '${listPariwisata[index]['deskripsi'].toString().substring(0, 15)}...'
+                                      : listPariwisata[index]['deskripsi']
+                                          .toString(),
+                                )),
+                                Text('HTM Rp. ${listPariwisata[index]['htm']}')
+                              ],
+                            ),
                           )
                         ],
                       ),
                     ))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'Recently Updated',
             style: TextStyle(fontSize: 20),
           ),
           Expanded(
               child: GridView.builder(
-            itemCount: 2,
+            itemCount: modifiedPariwisata.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1,
                 crossAxisCount: 2),
             itemBuilder: (context, index) => Card(
-              child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                      children: [Text('${listPariwisata[index]['nama']}')])),
+              child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage('${modifiedPariwisata[index]['imageUrl']}'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('${modifiedPariwisata[index]['facility_name']}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                Text('${modifiedPariwisata[index]['parent_turism']}')
+                              ],
+                            ),
+                          )
+                        ]),
             ),
           ))
         ]),
