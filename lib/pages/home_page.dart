@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/models/edited_pariwisata.dart';
 import 'package:kembang_belor_apps/models/pariwisata.dart';
+import 'package:kembang_belor_apps/pages/facility_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,48 +38,56 @@ class HomePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 20),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              width: size.width / 5.84,
-                              height: size.height / 10.74,
-                              image: AssetImage(
-                                listPariwisata[index]['imageUrl'].toString(),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FacilitiesPage(),
+                          ));
+                        },
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image(
+                                fit: BoxFit.fill,
+                                width: size.width / 5.84,
+                                height: size.height / 10.74,
+                                image: AssetImage(
+                                  listPariwisata[index]['imageUrl'].toString(),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${listPariwisata[index]['nama']}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${listPariwisata[index]['nama']}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Expanded(
-                                    child: Text(
-                                  listPariwisata[index]['deskripsi']
-                                              .toString()
-                                              .length >
-                                          15
-                                      ? '${listPariwisata[index]['deskripsi'].toString().substring(0, 15)}...'
-                                      : listPariwisata[index]['deskripsi']
-                                          .toString(),
-                                )),
-                                Text('HTM Rp. ${listPariwisata[index]['htm']}')
-                              ],
-                            ),
-                          )
-                        ],
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    listPariwisata[index]['deskripsi']
+                                                .toString()
+                                                .length >
+                                            15
+                                        ? '${listPariwisata[index]['deskripsi'].toString().substring(0, 15)}...'
+                                        : listPariwisata[index]['deskripsi']
+                                            .toString(),
+                                  )),
+                                  Text(
+                                      'HTM Rp. ${listPariwisata[index]['htm']}')
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ))),
           ),
