@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:panorama_viewer/panorama_viewer.dart';
 
 class DetailFacility extends StatelessWidget {
   const DetailFacility({super.key});
@@ -8,7 +9,7 @@ class DetailFacility extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        Container(
+        PanoramaViewer(
           child: Image.asset('assets/images/panorama.jpg'),
         ),
         TweenAnimationBuilder(

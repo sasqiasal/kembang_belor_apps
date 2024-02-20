@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/pages/home_page.dart';
 import 'package:kembang_belor_apps/pages/main_page.dart';
 
 void main() {
