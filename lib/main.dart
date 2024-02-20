@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/pages/home_page.dart';
+import 'package:kembang_belor_apps/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const MainPage(),
     );
   }
 }

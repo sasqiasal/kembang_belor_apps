@@ -8,11 +8,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
-
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -104,31 +99,37 @@ class HomePage extends StatelessWidget {
                 crossAxisCount: 2),
             itemBuilder: (context, index) => Card(
               child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: AssetImage('${modifiedPariwisata[index]['imageUrl']}'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              
-                            ),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: AssetImage(
+                                '${modifiedPariwisata[index]['imageUrl']}'),
+                            fit: BoxFit.cover,
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('${modifiedPariwisata[index]['facility_name']}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                                Text('${modifiedPariwisata[index]['parent_turism']}')
-                              ],
-                            ),
-                          )
-                        ]),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${modifiedPariwisata[index]['facility_name']}',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text('${modifiedPariwisata[index]['parent_turism']}')
+                        ],
+                      ),
+                    )
+                  ]),
             ),
           ))
         ]),
