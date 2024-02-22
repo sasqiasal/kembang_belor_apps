@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/models/edited_pariwisata.dart';
 import 'package:kembang_belor_apps/models/pariwisata.dart';
 import 'package:kembang_belor_apps/pages/facility_page.dart';
+import 'package:kembang_belor_apps/widget/card_list_pariwisata.dart';
+import 'package:kembang_belor_apps/widget/card_recently_updated.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -33,63 +36,15 @@ class HomePage extends StatelessWidget {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: listPariwisata.length,
-                itemBuilder: (context, index) => Card(
-                    elevation: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 20),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FacilitiesPage(),
-                          ));
-                        },
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image(
-                                fit: BoxFit.fill,
-                                width: size.width / 5.84,
-                                height: size.height / 10.74,
-                                image: AssetImage(
-                                  listPariwisata[index]['imageUrl'].toString(),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${listPariwisata[index]['nama']}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    listPariwisata[index]['deskripsi']
-                                                .toString()
-                                                .length >
-                                            15
-                                        ? '${listPariwisata[index]['deskripsi'].toString().substring(0, 15)}...'
-                                        : listPariwisata[index]['deskripsi']
-                                            .toString(),
-                                  )),
-                                  Text(
-                                      'HTM Rp. ${listPariwisata[index]['htm']}')
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ))),
+                itemBuilder: (context, index) {
+                  var pariwisata = listPariwisata[index];
+                  return PariwisataCard(
+                    imageUrl: pariwisata['imageUrl'].toString(),
+                    nama: pariwisata['nama'].toString(),
+                    deskripsi: pariwisata['deskripsi'].toString(),
+                    htm: pariwisata['htm'].toString(),
+                  );
+                }),
           ),
           const SizedBox(
             height: 20,
@@ -106,40 +61,14 @@ class HomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 1,
                 crossAxisCount: 2),
-            itemBuilder: (context, index) => Card(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: AssetImage(
-                                '${modifiedPariwisata[index]['imageUrl']}'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${modifiedPariwisata[index]['facility_name']}',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text('${modifiedPariwisata[index]['parent_turism']}')
-                        ],
-                      ),
-                    )
-                  ]),
-            ),
+            itemBuilder: (context, index) {
+              var pariwisata = modifiedPariwisata[index];
+              return RecentlyUpdatedCard(
+                imageUrl: pariwisata['imageUrl'].toString(),
+                facilityName: pariwisata['facility_name'].toString(),
+                parentTourism: pariwisata['parent_turism'].toString(),
+              );
+            },
           ))
         ]),
       ),
