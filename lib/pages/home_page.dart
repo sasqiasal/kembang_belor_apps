@@ -1,12 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/models/edited_pariwisata.dart';
-import 'package:kembang_belor_apps/models/pariwisata.dart';
-import 'package:kembang_belor_apps/pages/facility_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kembang_belor_apps/data/models/edited_pariwisata.dart';
+import 'package:kembang_belor_apps/providers/home/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/widget/card_list_pariwisata.dart';
 import 'package:kembang_belor_apps/widget/card_recently_updated.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TourismBloc>().add(TourismFected());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +46,34 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(
             height: size.height / 5,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: listPariwisata.length,
-                itemBuilder: (context, index) {
-                  var pariwisata = listPariwisata[index];
-                  return PariwisataCard(
-                    imageUrl: pariwisata['imageUrl'].toString(),
-                    nama: pariwisata['nama'].toString(),
-                    deskripsi: pariwisata['deskripsi'].toString(),
-                    htm: pariwisata['htm'].toString(),
+            child: BlocBuilder<TourismBloc, TourismState>(
+              builder: (context, state) {
+                if (state is TourismFailure) {
+                  return Center(
+                    child: Text(state.error!),
                   );
-                }),
+                }
+
+                if (state is! TourismSuccess) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final data = state.model!;
+                log(data.toString());
+
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final tourism = data[index];
+                      return PariwisataCard(
+                        model: tourism,
+                      );
+                    });
+              },
+            ),
           ),
           const SizedBox(
             height: 20,

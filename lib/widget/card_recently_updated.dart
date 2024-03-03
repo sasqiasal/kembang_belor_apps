@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/models/edited_pariwisata.dart';
 
 class RecentlyUpdatedCard extends StatelessWidget {
   final String facilityName;

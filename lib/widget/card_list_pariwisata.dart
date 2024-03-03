@@ -1,17 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kembang_belor_apps/data/models/tourism.dart';
+import 'package:kembang_belor_apps/domain/entities/tourism.dart';
 import 'package:kembang_belor_apps/pages/facility_page.dart';
 
 class PariwisataCard extends StatelessWidget {
-  final String deskripsi;
-  final String nama;
-  final String imageUrl;
-  final String htm;
-  const PariwisataCard(
-      {super.key,
-      required this.imageUrl,
-      required this.nama,
-      required this.deskripsi,
-      required this.htm});
+  final TourismEntity model;
+
+  const PariwisataCard({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +24,46 @@ class PariwisataCard extends StatelessWidget {
             },
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  child: Image(
-                    fit: BoxFit.fill,
-                    width: 100,
-                    height: 100,
-                    image: AssetImage(imageUrl),
+                CachedNetworkImage(
+                  imageUrl: model.imageUrl!,
+                  imageBuilder: (context, imageProvider) => ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover)),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 14),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: double.maxFinite,
+                        child: Icon(Icons.error),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.08),
+                        ),
+                      ),
+                    ),
+                  ),
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 14),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.08),
+                        ),
+                        child: const CupertinoActivityIndicator(),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -42,7 +72,7 @@ class PariwisataCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        nama,
+                        model.name!,
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -52,11 +82,11 @@ class PariwisataCard extends StatelessWidget {
                       ),
                       Expanded(
                           child: Text(
-                        deskripsi.length > 15
-                            ? '${deskripsi.substring(0, 15)}...'
-                            : deskripsi,
+                        model.desc!.length > 15
+                            ? '${model.desc!.substring(0, 15)}...'
+                            : model.desc!,
                       )),
-                      Text('HTM Rp. $htm')
+                      Text('HTM Rp. ${model.htm}')
                     ],
                   ),
                 )
