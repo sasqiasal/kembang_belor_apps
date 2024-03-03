@@ -10,15 +10,13 @@ class FacilitiesPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Klurak Eco Park'),
+          title: const Text('Klurak Eco Park'),
           centerTitle: true,
         ),
         body: ListView(
           children: [
             FacilityCard(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => DetailFacility(),
-              )),
+              onTap: () => Navigator.of(context).pushNamed('/detail_facility'),
               imageUrl: 'assets/images/logoklurak.jpeg',
             ),
           ],

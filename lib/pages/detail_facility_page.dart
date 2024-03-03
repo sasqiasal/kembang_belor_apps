@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
 
 class DetailFacility extends StatelessWidget {
@@ -21,7 +20,7 @@ class DetailFacility extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -38,7 +37,7 @@ class DetailFacility extends StatelessWidget {
                     )
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.location_on))
+                IconButton(onPressed: () {}, icon: const Icon(Icons.location_on))
               ],
             ),
           ),
@@ -46,7 +45,7 @@ class DetailFacility extends StatelessWidget {
             return AnimatedContainer(
                 duration: Durations.long1,
                 height: value,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),

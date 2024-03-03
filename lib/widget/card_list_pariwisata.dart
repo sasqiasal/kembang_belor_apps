@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/data/models/tourism.dart';
 import 'package:kembang_belor_apps/domain/entities/tourism.dart';
 import 'package:kembang_belor_apps/pages/facility_page.dart';
 
@@ -19,7 +18,7 @@ class PariwisataCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => FacilitiesPage(),
+                builder: (context) => const FacilitiesPage(),
               ));
             },
             child: Row(
@@ -43,10 +42,10 @@ class PariwisataCard extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 3,
                         height: double.maxFinite,
-                        child: Icon(Icons.error),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.08),
                         ),
+                        child: const Icon(Icons.error),
                       ),
                     ),
                   ),
@@ -67,7 +66,7 @@ class PariwisataCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

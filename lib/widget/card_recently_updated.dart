@@ -33,7 +33,7 @@ class RecentlyUpdatedCard extends StatelessWidget {
             children: [
               Text(
                 facilityName,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

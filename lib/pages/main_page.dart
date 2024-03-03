@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _pages = [HomePage(), NewsPage()];
+  final _pages = [const HomePage(), const NewsPage()];
 
   int currentPage = 0;
   @override
@@ -23,8 +23,8 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentPage,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          const BottomNavigationBarItem(
             icon: Icon(Icons.newspaper),
             label: 'News',
           )

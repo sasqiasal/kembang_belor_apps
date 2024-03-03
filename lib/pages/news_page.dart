@@ -10,13 +10,13 @@ class NewsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Berita Kembang Belor'),
+          title: const Text('Berita Kembang Belor'),
         ),
         body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
+              const Text(
                 'Acara',
                 style: TextStyle(fontSize: 18),
               ),
@@ -42,18 +42,18 @@ class NewsPage extends StatelessWidget {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(DateFormat('dd MMMM yyyy').format(
                                 DateFormat("yyyy-MM-dd")
                                     .parse(acara['tanggalMulai'].toString()))),
-                            Text('s/d'),
+                            const Text('s/d'),
                             Text(DateFormat('dd MMMM yyyy').format(
                                 DateFormat("yyyy-MM-dd").parse(
                                     acara['tanggalSelesai'].toString()))),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               acara['tempat'].toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -62,14 +62,14 @@ class NewsPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 'Berita',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
@@ -78,7 +78,7 @@ class NewsPage extends StatelessWidget {
                       itemBuilder: (context, index) => Card(
                               child: Container(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 10),
                               child: Row(children: [
                                 ClipRRect(
@@ -89,10 +89,10 @@ class NewsPage extends StatelessWidget {
                                     height: 100,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Text('Berita Tentang Kembang Belor')
+                                const Text('Berita Tentang Kembang Belor')
                               ]),
                             ),
                           ))))

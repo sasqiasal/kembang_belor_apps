@@ -15,7 +15,7 @@ class FacilityCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imageUrl.isEmpty
@@ -29,7 +29,7 @@ class FacilityCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
+            const Expanded(
               child: Center(
                 child: Text(
                   'Kolam Renang',
@@ -42,13 +42,13 @@ class FacilityCard extends StatelessWidget {
             ),
             Container(
               decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
-              child: Icon(
+                  const BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
+              child: const Icon(
                 Icons.navigate_next_sharp,
                 color: Colors.white,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             )
           ],
