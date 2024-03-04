@@ -53,7 +53,8 @@ class NewsPage extends StatelessWidget {
                             const SizedBox(height: 5),
                             Text(
                               acara['tempat'].toString(),
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -76,25 +77,23 @@ class NewsPage extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: 3,
                       itemBuilder: (context, index) => Card(
-                              child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              child: Row(children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.asset(
-                                    'assets/images/splash.png',
-                                    width: 100,
-                                    height: 100,
-                                  ),
+                              child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Row(children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Image.asset(
+                                  'assets/images/splash.png',
+                                  width: 100,
+                                  height: 100,
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Text('Berita Tentang Kembang Belor')
-                              ]),
-                            ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text('Berita Tentang Kembang Belor')
+                            ]),
                           ))))
             ])),
       ),

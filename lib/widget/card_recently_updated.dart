@@ -26,8 +26,13 @@ class RecentlyUpdatedCard extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: model.imageUrl!,
             imageBuilder: (context, imageProvider) => Container(
-              decoration:
-                  BoxDecoration(image: DecorationImage(image: imageProvider)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
         ),

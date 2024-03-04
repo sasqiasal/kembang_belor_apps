@@ -5,10 +5,10 @@ class FacilityCard extends StatelessWidget {
   final Function()? onTap;
   final String imageUrl;
   const FacilityCard({
-    Key? key,
+    super.key,
     this.onTap,
     this.imageUrl = '',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,8 @@ class FacilityCard extends StatelessWidget {
               ),
             ),
             Container(
-              decoration:
-                  const BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.black26),
               child: const Icon(
                 Icons.navigate_next_sharp,
                 color: Colors.white,
