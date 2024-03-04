@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/data/models/edited_pariwisata.dart';
-import 'package:kembang_belor_apps/providers/home/bloc/tourism_bloc.dart';
+import 'package:kembang_belor_apps/providers/recently/bloc/recently_tourism_bloc.dart';
+import 'package:kembang_belor_apps/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/widget/card_list_pariwisata.dart';
 import 'package:kembang_belor_apps/widget/card_recently_updated.dart';
 
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<TourismBloc>().add(TourismFected());
+    context.read<RecentlyTourismBloc>().add(RecentlyFacilityFected());
   }
 
   @override
@@ -83,19 +85,35 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 20),
           ),
           Expanded(
-              child: GridView.builder(
-            itemCount: modifiedPariwisata.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1,
-                crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              var pariwisata = modifiedPariwisata[index];
-              return RecentlyUpdatedCard(
-                imageUrl: pariwisata['imageUrl'].toString(),
-                facilityName: pariwisata['facility_name'].toString(),
-                parentTourism: pariwisata['parent_turism'].toString(),
+              child: BlocBuilder<RecentlyTourismBloc, RecentlyTourismState>(
+            builder: (context, state) {
+              if (state is RecentlyTourismFailure) {
+                return Center(
+                  child: Text(state.error!),
+                );
+              }
+
+              if (state is! RecentlyTourismSuccess) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              log('${state.model}');
+              final data = state.model!;
+
+              return GridView.builder(
+                itemCount: data.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1,
+                    crossAxisCount: 2),
+                itemBuilder: (context, index) {
+                  return RecentlyUpdatedCard(
+                    model: state.model![index],
+                  );
+                },
               );
             },
           ))

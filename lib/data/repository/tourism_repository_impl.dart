@@ -17,17 +17,17 @@ class TourismRepositoryImpl implements TourismRepository {
 
       return DataSuccess(dataTourism);
     } catch (e) {
-      throw DataFailed(e.toString());
+      return DataFailed(e.toString());
     }
   }
 
   @override
-  Future<DataState<List<RecentlyFacilityModel>>> getRecentlyFacilies() async {
+  Future<DataState<List<RecentlyFacilityModel>>> getRecentlyFacilies () async {
     try {
       final dataRecenlyFacilities = await dataSource.getRecentlyFacilies();
       return DataSuccess(dataRecenlyFacilities);
     } catch (e) {
-      throw DataFailed(e.toString());
+      return DataFailed(e.toString());
     }
   }
 }

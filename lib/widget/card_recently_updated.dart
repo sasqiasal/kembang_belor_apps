@@ -1,14 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kembang_belor_apps/domain/entities/recently_update.dart';
 
 class RecentlyUpdatedCard extends StatelessWidget {
-  final String facilityName;
-  final String imageUrl;
-  final String parentTourism;
+  final RecentlyFacilityEntity model;
   const RecentlyUpdatedCard({
     super.key,
-    required this.imageUrl,
-    required this.facilityName,
-    required this.parentTourism,
+    required this.model,
   });
 
   @override
@@ -16,13 +14,20 @@ class RecentlyUpdatedCard extends StatelessWidget {
     return Card(
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: AssetImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
+          // child: Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(20),
+          //     image: DecorationImage(
+          //       image: AssetImage(imageUrl),
+          //       fit: BoxFit.cover,
+          //     ),
+          //   ),
+          // ),
+          child: CachedNetworkImage(
+            imageUrl: model.imageUrl!,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration:
+                  BoxDecoration(image: DecorationImage(image: imageProvider)),
             ),
           ),
         ),
@@ -32,12 +37,13 @@ class RecentlyUpdatedCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                facilityName,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                model.facility_name!,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(parentTourism)
+              Text(model.parent_tourism!['name'])
             ],
           ),
         )

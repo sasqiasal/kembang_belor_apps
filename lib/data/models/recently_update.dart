@@ -7,47 +7,47 @@ import 'package:kembang_belor_apps/domain/entities/recently_update.dart';
 class RecentlyFacilityModel extends RecentlyFacilityEntity {
   RecentlyFacilityModel({
     int? id,
-    String? facilityName,
+    String? facility_name,
     String? imageUrl,
-    String? parent_tourism_name,
+    Map<String, dynamic>? parent_tourism,
   }) : super(
             id: id,
-            facilityName: facilityName,
+            facility_name: facility_name,
             imageUrl: imageUrl,
-            parent_tourism_name: parent_tourism_name);
+            parent_tourism: parent_tourism);
 
   RecentlyFacilityModel copyWith({
     int? id,
-    String? facilityName,
+    String? facility_name,
     String? imageUrl,
-    String? parent_tourism_name,
+    Map<String, dynamic>? parent_tourism,
   }) {
     return RecentlyFacilityModel(
       id: id ?? this.id,
-      facilityName: facilityName ?? this.facilityName,
+      facility_name: facility_name ?? this.facility_name,
       imageUrl: imageUrl ?? this.imageUrl,
-      parent_tourism_name: parent_tourism_name ?? this.parent_tourism_name,
+      parent_tourism: parent_tourism ?? this.parent_tourism,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'facilityName': facilityName,
+      'facility_name': facility_name,
       'imageUrl': imageUrl,
-      'parent_tourism_name': parent_tourism_name,
+      'parent_tourism': parent_tourism,
     };
   }
 
   factory RecentlyFacilityModel.fromMap(Map<String, dynamic> map) {
     return RecentlyFacilityModel(
       id: map['id'] != null ? map['id'] as int : null,
-      facilityName:
-          map['facilityName'] != null ? map['facilityName'] as String : null,
+      facility_name:
+          map['facility_name'] != null ? map['facility_name'] as String : null,
       imageUrl:
           map['imageUrl'] != null ? map['imageUrl'] as String : kDefaultImage,
-      parent_tourism_name: map['parent_tourism_name'] != null
-          ? map['parent_tourism_name'] as String
+      parent_tourism: map['parent_tourism'] != null
+          ? map['parent_tourism'] as Map<String, dynamic>
           : null,
     );
   }
@@ -60,7 +60,7 @@ class RecentlyFacilityModel extends RecentlyFacilityEntity {
 
   @override
   String toString() {
-    return 'RecentlyFacilityModel(id: $id, facilityName: $facilityName, imageUrl: $imageUrl, parent_tourism_name: $parent_tourism_name)';
+    return 'RecentlyFacilityModel(id: $id, facility_name: $facility_name, imageUrl: $imageUrl, parent_tourism: $parent_tourism)';
   }
 
   @override
@@ -68,16 +68,16 @@ class RecentlyFacilityModel extends RecentlyFacilityEntity {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.facilityName == facilityName &&
+        other.facility_name == facility_name &&
         other.imageUrl == imageUrl &&
-        other.parent_tourism_name == parent_tourism_name;
+        other.parent_tourism == parent_tourism;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        facilityName.hashCode ^
+        facility_name.hashCode ^
         imageUrl.hashCode ^
-        parent_tourism_name.hashCode;
+        parent_tourism.hashCode;
   }
 }

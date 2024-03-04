@@ -15,7 +15,8 @@ final class TourismInitial extends TourismState {}
 final class TourismLoading extends TourismState {}
 
 final class TourismSuccess extends TourismState {
-  const TourismSuccess(List<TourismEntity> entities) : super(model: entities);
+  const TourismSuccess({List<TourismEntity>? entities})
+      : super(model: entities);
 }
 
 final class TourismFailure extends TourismState {

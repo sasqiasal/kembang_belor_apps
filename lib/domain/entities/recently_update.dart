@@ -2,13 +2,13 @@ import 'package:equatable/equatable.dart';
 
 class RecentlyFacilityEntity extends Equatable {
   final int? id;
-  final String? facilityName;
+  final String? facility_name;
   final String? imageUrl;
-  final String? parent_tourism_name;
+  final Map<String, dynamic>? parent_tourism;
 
   RecentlyFacilityEntity(
-      {this.id, this.facilityName, this.imageUrl, this.parent_tourism_name});
+      {this.id, this.facility_name, this.imageUrl, this.parent_tourism});
 
   @override
-  List<Object?> get props => [id, facilityName, imageUrl, parent_tourism_name];
+  List<Object?> get props => [id, facility_name, imageUrl, parent_tourism];
 }

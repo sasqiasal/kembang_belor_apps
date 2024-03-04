@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:kembang_belor_apps/data/models/recently_update.dart';
 import 'package:kembang_belor_apps/data/models/tourism.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,10 +22,11 @@ class RemoteDataSource {
     try {
       final response = await supabase.from('list_facility_tourism').select('''
     id,
-    parent_tourism:wisata ( name ),
+    parent_tourism:wisata(name),
     imageUrl,
-    facilityName
+    facility_name
   ''').order('updated_at', ascending: false).limit(4);
+      log(response.toString());
 
       List<RecentlyFacilityModel> recentlyUpdatedList =
           response.map((e) => RecentlyFacilityModel.fromMap(e)).toList();
