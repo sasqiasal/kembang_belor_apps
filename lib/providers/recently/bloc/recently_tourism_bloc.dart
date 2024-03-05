@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kembang_belor_apps/core/resources/data_state.dart';
 import 'package:kembang_belor_apps/domain/entities/recently_update.dart';
-import 'package:kembang_belor_apps/domain/entities/tourism.dart';
 import 'package:kembang_belor_apps/domain/usecases/get_recenly_facilities.dart';
 
 part 'recently_tourism_event.dart';

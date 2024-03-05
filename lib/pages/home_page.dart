@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kembang_belor_apps/data/models/edited_pariwisata.dart';
 import 'package:kembang_belor_apps/providers/recently/bloc/recently_tourism_bloc.dart';
 import 'package:kembang_belor_apps/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/widget/card_list_pariwisata.dart';

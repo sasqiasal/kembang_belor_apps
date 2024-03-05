@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             _currentPageIndex = value;
             _pageViewController.animateToPage(value,
                 duration: const Duration(milliseconds: 400),
-                curve: Curves.bounceIn);
+                curve: Curves.easeInOut);
           });
         },
       ),

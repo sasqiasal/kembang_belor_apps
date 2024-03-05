@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/pages/detail_facility_page.dart';
 import 'package:kembang_belor_apps/widget/facility_card.dart';
 
 class FacilitiesPage extends StatelessWidget {

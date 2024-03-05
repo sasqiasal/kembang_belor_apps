@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: theme(),
         home: const MainPage(),
+        initialRoute: '/',
         onGenerateRoute: AppRoute.onGenerateRoute,
       ),
     );
