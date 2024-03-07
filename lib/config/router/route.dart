@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/pages/detail_facility_page.dart';
-import 'package:kembang_belor_apps/pages/facility_page.dart';
-import 'package:kembang_belor_apps/pages/main_page.dart';
+import 'package:kembang_belor_apps/features/home/presentation/pages/detail_facility_page.dart';
+import 'package:kembang_belor_apps/features/home/presentation/pages/facility_page.dart';
+import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
 
 class AppRoute {
   static Route onGenerateRoute(RouteSettings settings) {
