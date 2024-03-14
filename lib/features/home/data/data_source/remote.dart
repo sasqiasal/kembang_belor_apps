@@ -22,9 +22,9 @@ class RemoteDataSource {
     try {
       final response = await supabase.from('list_facility_tourism').select('''
     id,
-    parent_tourism:wisata(name),
+    parentTourism:wisata(name),
     imageUrl,
-    facility_name
+    facilityName
   ''').order('updated_at', ascending: false).limit(4);
       log(response.toString());
 

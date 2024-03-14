@@ -33,13 +33,13 @@ class RecentlyUpdatedCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                model.facility_name!,
+                model.facilityName!,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(model.parent_tourism!['name'])
+              Text(model.parentTourism!['name'])
             ],
           ),
         )

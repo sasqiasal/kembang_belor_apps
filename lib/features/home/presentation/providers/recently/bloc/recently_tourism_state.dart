@@ -6,7 +6,7 @@ sealed class RecentlyTourismState extends Equatable {
   const RecentlyTourismState({this.model, this.error});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [model,error];
 }
 
 final class RecentlyTourismInitial extends RecentlyTourismState {}

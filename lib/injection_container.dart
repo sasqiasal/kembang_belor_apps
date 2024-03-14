@@ -9,7 +9,6 @@ import 'package:kembang_belor_apps/features/home/domain/usecases/get_tourism.dar
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  sl.registerSingleton<MyBlocObserver>(MyBlocObserver());
   sl.registerSingleton<RemoteDataSource>(RemoteDataSource());
   sl.registerSingleton<TourismRepository>(TourismRepositoryImpl(sl()));
   sl.registerSingleton<GetTourismUseCase>(GetTourismUseCase(sl()));
