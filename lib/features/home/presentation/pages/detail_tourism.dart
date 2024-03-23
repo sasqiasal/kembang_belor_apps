@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/home/domain/entities/tourism.dart';
+import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class DetailTourims extends StatefulWidget {
@@ -18,11 +20,13 @@ class DetailTourims extends StatefulWidget {
 
 class _DetailTourimsState extends State<DetailTourims> {
   late int _currentValue;
+  late DateTime date;
 
   @override
   void initState() {
     super.initState();
     _currentValue = 0;
+    date = DateTime.now();
   }
 
   @override
@@ -31,10 +35,24 @@ class _DetailTourimsState extends State<DetailTourims> {
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showModalBottomSheet(
               context: context,
-              builder: (context) => StatefulBuilder(
-                    builder: (context, setState) => SizedBox(
+              builder: (context) =>
+                  StatefulBuilder(builder: (context, setState) {
+                    Future<void> _selectDate(BuildContext context) async {
+                      final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: date,
+                          firstDate: DateTime(2015, 8),
+                          lastDate: DateTime(2101));
+                      if (picked != null && picked != date) {
+                        setState(() {
+                          date = picked;
+                        });
+                      }
+                    }
+
+                    return SizedBox(
                         width: double.infinity,
-                        height: 200,
+                        height: 400,
                         child: Padding(
                           padding: const EdgeInsets.only(
                               bottom: 15, top: 20, left: 20, right: 20),
@@ -44,125 +62,109 @@ class _DetailTourimsState extends State<DetailTourims> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text('Jumlah Pengunjung'),
-                              NumberPicker(
-                                minValue: 0,
-                                maxValue: 20,
-                                axis: Axis.horizontal,
-                                value: _currentValue,
-                                onChanged: (value) =>
-                                    setState(() => _currentValue = value),
+                              Center(
+                                child: NumberPicker(
+                                  minValue: 0,
+                                  maxValue: 20,
+                                  axis: Axis.horizontal,
+                                  value: _currentValue,
+                                  onChanged: (value) =>
+                                      setState(() => _currentValue = value),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Tanggal'),
+                                  TextButton(
+                                      onPressed: () => _selectDate(context),
+                                      child: Text('Pilih Tanggal'))
+                                ],
+                              ),
+                              Center(
+                                child: Text(
+                                  DateFormat.yMMMd().format(date),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: ElevatedButton.icon(
                                   icon: Text('Pesan Sekarang'),
                                   label: Icon(Icons.check),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/payment',
+                                        arguments: PaymentTourism(
+                                            qty: _currentValue,
+                                            date: DateTime.now(),
+                                            entity: widget.entity));
+                                  },
                                 ),
                               )
                             ],
                           ),
-                        )),
-                  )),
+                        ));
+                  })),
           label: Row(
             children: [Text('Pesan Sekarang'), Icon(Icons.navigate_next)],
           )),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(children: [
-              CachedNetworkImage(
-                cacheKey: '/tourism',
-                imageBuilder: (context, imageProvider) => Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: imageProvider, fit: BoxFit.cover)),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(children: [
+                CachedNetworkImage(
+                  cacheKey: '/tourism',
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover)),
+                  ),
+                  imageUrl: widget.entity.imageUrl!,
                 ),
-                imageUrl: widget.entity.imageUrl!,
-              ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  )),
-            ]),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.entity.name!,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, right: 20),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) => StatefulBuilder(
-                              builder: (context, setState) => SizedBox(
-                                  width: double.infinity,
-                                  height: 200,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15,
-                                        top: 20,
-                                        left: 20,
-                                        right: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text('Jumlah Pengunjung'),
-                                        NumberPicker(
-                                          minValue: 0,
-                                          maxValue: 20,
-                                          axis: Axis.horizontal,
-                                          value: _currentValue,
-                                          onChanged: (value) => setState(
-                                              () => _currentValue = value),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: ElevatedButton.icon(
-                                            icon: Text('Pesan Sekarang'),
-                                            label: Icon(Icons.check),
-                                            onPressed: () {},
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            ));
-                  },
-                  label: Icon(
-                    Icons.navigate_next,
-                    size: 40,
-                  ),
-                  icon: Text(
-                    'Pesan Sekarang',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    )),
+              ]),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.entity.name!,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(left: 40),
+                child: Text('Rp. ${widget.entity.htm} per Pengunjung'),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.entity.desc!),
+              ),
+              SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );
