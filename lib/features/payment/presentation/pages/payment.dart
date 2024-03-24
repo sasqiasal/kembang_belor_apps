@@ -62,8 +62,11 @@ class PaymentPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Detail Pemesanan',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              'Detail Pesanan',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 25,
@@ -71,11 +74,20 @@ class PaymentPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('${selectedTourismPayment.qty.toString()} Tiket'),
-                Text(selectedTourismPayment.entity.htm!.toString()),
                 Text(
-                    '${selectedTourismPayment.qty * selectedTourismPayment.entity.htm!}')
+                  '${selectedTourismPayment.qty.toString()} Tiket',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                    'Rp. ${selectedTourismPayment.qty * selectedTourismPayment.entity.htm!}',
+                    style: Theme.of(context).textTheme.headlineSmall)
               ],
+            ),
+            Spacer(),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(textStyle: TextStyle()),
+              child: Text('Bayar Sekarang'),
             )
           ],
         ),
