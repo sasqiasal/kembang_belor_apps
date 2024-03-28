@@ -84,10 +84,15 @@ class PaymentPage extends StatelessWidget {
               ],
             ),
             Spacer(),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(textStyle: TextStyle()),
-              child: Text('Bayar Sekarang'),
+            SizedBox(
+              height: 75,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.headlineMedium),
+                child: const Text('Bayar Sekarang'),
+              ),
             )
           ],
         ),

@@ -41,7 +41,7 @@ class _DetailTourimsState extends State<DetailTourims> {
                       final DateTime? picked = await showDatePicker(
                           context: context,
                           initialDate: date,
-                          firstDate: DateTime(2015, 8),
+                          firstDate: date,
                           lastDate: DateTime(2101));
                       if (picked != null && picked != date) {
                         setState(() {
@@ -61,7 +61,7 @@ class _DetailTourimsState extends State<DetailTourims> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text('Jumlah Pengunjung'),
+                              const Text('Jumlah Pengunjung'),
                               Center(
                                 child: NumberPicker(
                                   minValue: 0,
