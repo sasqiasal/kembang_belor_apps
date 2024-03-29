@@ -8,11 +8,16 @@ import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
   final PaymentTourism selectedTourismPayment;
 
   const PaymentPage({super.key, required this.selectedTourismPayment});
 
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +49,8 @@ class PaymentPage extends StatelessWidget {
                     child: Row(
                       children: [
                         CachedNetworkImage(
-                          imageUrl: selectedTourismPayment.entity.imageUrl!,
+                          imageUrl:
+                              widget.selectedTourismPayment.entity.imageUrl!,
                           imageBuilder: (context, imageProvider) => Container(
                             height: 100,
                             width: 100,
@@ -67,7 +73,7 @@ class PaymentPage extends StatelessWidget {
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              selectedTourismPayment.entity.name!,
+                              widget.selectedTourismPayment.entity.name!,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
@@ -94,11 +100,11 @@ class PaymentPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      '${selectedTourismPayment.qty.toString()} Tiket',
+                      '${widget.selectedTourismPayment.qty.toString()} Tiket',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
-                        'Rp. ${selectedTourismPayment.qty * selectedTourismPayment.entity.htm!}',
+                        'Rp. ${widget.selectedTourismPayment.qty * widget.selectedTourismPayment.entity.htm!}',
                         style: Theme.of(context).textTheme.headlineSmall)
                   ],
                 ),
@@ -111,8 +117,8 @@ class PaymentPage extends StatelessWidget {
                       context.read<PaymentBloc>().add(GetPaymentLink(
                             params: {
                               'orderId': getCurrentDateTimeString(),
-                              'grossAmount': selectedTourismPayment.qty *
-                                  selectedTourismPayment.entity.htm!
+                              'grossAmount': widget.selectedTourismPayment.qty *
+                                  widget.selectedTourismPayment.entity.htm!
                             },
                           ));
                     },
