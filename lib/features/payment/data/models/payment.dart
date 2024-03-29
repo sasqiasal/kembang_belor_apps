@@ -4,29 +4,29 @@ import 'dart:convert';
 import 'package:kembang_belor_apps/features/payment/domain/entity/payment_entity.dart';
 
 class GetPaymentModel extends GetPaymentEntity {
-  GetPaymentModel({required super.token, required super.redirected_url});
+  GetPaymentModel({required super.token, required super.redirect_url});
 
   GetPaymentModel copyWith({
     String? token,
-    String? redirected_url,
+    String? redirect_url,
   }) {
     return GetPaymentModel(
       token: token ?? this.token,
-      redirected_url: redirected_url ?? this.redirected_url,
+      redirect_url: redirect_url ?? this.redirect_url,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'token': token,
-      'redirected_url': redirected_url,
+      'redirect_url': redirect_url,
     };
   }
 
   factory GetPaymentModel.fromMap(Map<String, dynamic> map) {
     return GetPaymentModel(
       token: map['token'] as String,
-      redirected_url: map['redirected_url'] as String,
+      redirect_url: map['redirect_url'] as String,
     );
   }
 
@@ -37,15 +37,15 @@ class GetPaymentModel extends GetPaymentEntity {
 
   @override
   String toString() =>
-      'GetPaymentModel(token: $token, redirected_url: $redirected_url)';
+      'GetPaymentModel(token: $token, redirect_url: $redirect_url)';
 
   @override
   bool operator ==(covariant GetPaymentModel other) {
     if (identical(this, other)) return true;
 
-    return other.token == token && other.redirected_url == redirected_url;
+    return other.token == token && other.redirect_url == redirect_url;
   }
 
   @override
-  int get hashCode => token.hashCode ^ redirected_url.hashCode;
+  int get hashCode => token.hashCode ^ redirect_url.hashCode;
 }

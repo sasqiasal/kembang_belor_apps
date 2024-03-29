@@ -1,15 +1,27 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kembang_belor_apps/core/resources/data_state/data_state.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/payment_entity.dart';
+import 'package:kembang_belor_apps/features/payment/domain/usecases/payment.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  PaymentBloc() : super(PaymentLoading()) {
+  final GetPaymentLinkUseCase _getPaymentLinkUseCase;
+  PaymentBloc(this._getPaymentLinkUseCase) : super(PaymentLoading()) {
     on<GetPaymentLink>(_getPaymentLink);
   }
 
-  void _getPaymentLink(GetPaymentLink event, Emitter<PaymentState> emit) {}
+  void _getPaymentLink(GetPaymentLink event, Emitter<PaymentState> emit) async {
+    final dataState = await _getPaymentLinkUseCase(params: event.params);
+
+    if (dataState is DataSuccess && dataState.data != null) {
+      emit(PaymentSucess(dataState.data!));
+    }
+
+    if (dataState is DataFailed) {
+      emit(PaymentError(dataState.error!));
+    }
+  }
 }

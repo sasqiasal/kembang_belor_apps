@@ -3,5 +3,5 @@ import 'package:kembang_belor_apps/features/payment/domain/entity/payment_entity
 
 abstract class PaymentRepository {
   Future<DataState<GetPaymentEntity>> getPaymentLink(
-      String orderId, int grossAmount);
+      {required String orderId, required int grossAmount});
 }

@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 
 class PaymentPage extends StatelessWidget {
   final PaymentTourism selectedTourismPayment;
@@ -13,90 +19,119 @@ class PaymentPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pesanan Anda'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: selectedTourismPayment.entity.imageUrl!,
-                      imageBuilder: (context, imageProvider) => Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover)),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: BlocConsumer<PaymentBloc, PaymentState>(
+        listener: (context, state) {
+          if (state is PaymentLoading) {}
+
+          if (state is PaymentError) {
+            log(state.error!);
+          }
+
+          if (state is PaymentSucess) {
+            log(state.model!.toString());
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
                       children: [
-                        Text(
-                          'Tiket Masuk',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                        CachedNetworkImage(
+                          imageUrl: selectedTourismPayment.entity.imageUrl!,
+                          imageBuilder: (context, imageProvider) => Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover)),
+                          ),
                         ),
-                        Text(
-                          selectedTourismPayment.entity.name!,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+                        const SizedBox(
+                          width: 20,
                         ),
-                        Text('Hari'),
-                        Text('Tanggal')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Tiket Masuk',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              selectedTourismPayment.entity.name!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text('Hari'),
+                            Text('Tanggal')
+                          ],
+                        )
                       ],
-                    )
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Detail Pesanan',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      '${selectedTourismPayment.qty.toString()} Tiket',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Text(
+                        'Rp. ${selectedTourismPayment.qty * selectedTourismPayment.entity.htm!}',
+                        style: Theme.of(context).textTheme.headlineSmall)
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Detail Pesanan',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  '${selectedTourismPayment.qty.toString()} Tiket',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                Text(
-                    'Rp. ${selectedTourismPayment.qty * selectedTourismPayment.entity.htm!}',
-                    style: Theme.of(context).textTheme.headlineSmall)
+                Spacer(),
+                SizedBox(
+                  height: 75,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<PaymentBloc>().add(GetPaymentLink(
+                            params: {
+                              'orderId': getCurrentDateTimeString(),
+                              'grossAmount': selectedTourismPayment.qty *
+                                  selectedTourismPayment.entity.htm!
+                            },
+                          ));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.headlineMedium),
+                    child: const Text('Bayar Sekarang'),
+                  ),
+                )
               ],
             ),
-            Spacer(),
-            SizedBox(
-              height: 75,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.headlineMedium),
-                child: const Text('Bayar Sekarang'),
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+}
+
+String getCurrentDateTimeString() {
+  DateTime now = DateTime.now();
+  String formattedDateTime = DateFormat('ddMMyyyyHHmmss').format(now);
+  return formattedDateTime;
 }
