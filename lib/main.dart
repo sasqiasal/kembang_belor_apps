@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kembang_belor_apps/config/router/route.dart';
 import 'package:kembang_belor_apps/config/theme/theme.dart';
 import 'package:kembang_belor_apps/core/constant/constant.dart';
@@ -14,7 +15,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(url: projectUrl, anonKey: anonKey);
-
+  await dotenv.load(fileName: ".env");
   initializeDependencies();
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());

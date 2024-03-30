@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
 
 class PaymentPage extends StatefulWidget {
   final PaymentTourism selectedTourismPayment;
@@ -18,6 +20,34 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  MidtransSDK? _midtrans;
+  @override
+  void initState() {
+    super.initState();
+    initSDK();
+  }
+
+  void initSDK() async {
+    _midtrans = await MidtransSDK.init(
+      config: MidtransConfig(
+        clientKey: dotenv.env['CLIENTKEY'] ?? "",
+        merchantBaseUrl: dotenv.env['BASEURL'] ?? "",
+      ),
+    );
+    _midtrans?.setUIKitCustomSetting(
+      skipCustomerDetailsPages: true,
+    );
+    _midtrans!.setTransactionFinishedCallback((result) {
+      print('Hasil Pembayaran : ${result.toJson().toString()}');
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _midtrans?.removeTransactionFinishedCallback();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +55,7 @@ class _PaymentPageState extends State<PaymentPage> {
         title: const Text('Pesanan Anda'),
       ),
       body: BlocConsumer<PaymentBloc, PaymentState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is PaymentLoading) {}
 
           if (state is PaymentError) {
@@ -34,6 +64,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
           if (state is PaymentSucess) {
             log(state.model!.toString());
+            _midtrans!.startPaymentUiFlow(token: state.model!.token);
           }
         },
         builder: (context, state) {
