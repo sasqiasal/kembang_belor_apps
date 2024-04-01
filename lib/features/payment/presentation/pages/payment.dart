@@ -21,6 +21,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   MidtransSDK? _midtrans;
+  late String _result = '';
   @override
   void initState() {
     super.initState();
@@ -39,6 +40,9 @@ class _PaymentPageState extends State<PaymentPage> {
     );
     _midtrans!.setTransactionFinishedCallback((result) {
       print('Hasil Pembayaran : ${result.toJson().toString()}');
+      setState(() {
+        _result = result.statusMessage!;
+      });
     });
   }
 
@@ -157,7 +161,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         textStyle: Theme.of(context).textTheme.headlineMedium),
                     child: const Text('Bayar Sekarang'),
                   ),
-                )
+                ),
+                Text(_result)
               ],
             ),
           );
