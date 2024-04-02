@@ -5,6 +5,7 @@ import 'package:kembang_belor_apps/config/router/route.dart';
 import 'package:kembang_belor_apps/config/theme/theme.dart';
 import 'package:kembang_belor_apps/core/constant/constant.dart';
 import 'package:kembang_belor_apps/core/resources/observer/observer.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
-        home: const MainPage(),
+        home: const LoginPage(),
         initialRoute: '/',
         onGenerateRoute: AppRoute.onGenerateRoute,
       ),
