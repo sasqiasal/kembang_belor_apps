@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/pages/registration.dart';
 import 'package:kembang_belor_apps/features/home/domain/entities/tourism.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/detail_facility_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/detail_tourism.dart';
@@ -13,6 +14,8 @@ class AppRoute {
     switch (settings.name) {
       case '/':
         return _materialRoute(const LoginPage());
+      case '/registration':
+        return _materialRoute(const RegistrationPage());
       case '/home':
         return _materialRoute(const MainPage());
       case '/facility':
