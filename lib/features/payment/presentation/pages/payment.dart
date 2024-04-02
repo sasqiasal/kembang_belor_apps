@@ -21,7 +21,9 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   MidtransSDK? _midtrans;
-  late String _result = '';
+  final ValueNotifier<TransactionResult> _valueNotifier =
+      ValueNotifier<TransactionResult>(TransactionResult());
+
   @override
   void initState() {
     super.initState();
@@ -39,10 +41,7 @@ class _PaymentPageState extends State<PaymentPage> {
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      print('Hasil Pembayaran : ${result.toJson().toString()}');
-      setState(() {
-        _result = result.statusMessage!;
-      });
+      _valueNotifier.value = result;
     });
   }
 
@@ -50,6 +49,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void dispose() {
     super.dispose();
     _midtrans?.removeTransactionFinishedCallback();
+    _valueNotifier.dispose();
   }
 
   @override
@@ -162,7 +162,6 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: const Text('Bayar Sekarang'),
                   ),
                 ),
-                Text(_result)
               ],
             ),
           );
