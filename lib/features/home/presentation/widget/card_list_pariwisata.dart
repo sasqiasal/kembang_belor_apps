@@ -17,13 +17,13 @@ class PariwisataCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const FacilitiesPage(),
-              ));
+              Navigator.of(context)
+                  .pushNamed('/detail_tourism', arguments: model);
             },
             child: Row(
               children: [
                 CachedNetworkImage(
+                  cacheKey: '/tourism',
                   imageUrl: model.imageUrl!,
                   imageBuilder: (context, imageProvider) => ClipRRect(
                     borderRadius: BorderRadius.circular(50),

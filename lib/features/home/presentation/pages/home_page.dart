@@ -53,7 +53,16 @@ class _HomePageState extends State<HomePage>
               builder: (context, state) {
                 if (state is TourismFailure) {
                   return Center(
-                    child: Text(state.error!),
+                    child: Column(
+                      children: [
+                        Text('Unexpected Error'),
+                        TextButton(
+                            onPressed: () {
+                              context.read<TourismBloc>().add(TourismFected());
+                            },
+                            child: Text('Reload'))
+                      ],
+                    ),
                   );
                 }
 

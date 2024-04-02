@@ -6,8 +6,7 @@ import 'package:kembang_belor_apps/features/home/domain/entities/tourism.dart';
 
 class TourismModel extends TourismEntity {
   const TourismModel(
-      {int? id, String? name, String? desc, int? htm, String? imageUrl})
-      : super(id: id, name: name, desc: desc, htm: htm, imageUrl: imageUrl);
+      {super.id, super.name, super.desc, super.htm, super.imageUrl});
 
   TourismModel copyWith({
     int? id,

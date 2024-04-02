@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kembang_belor_apps/features/home/data/models/acara.dart';
+
 import 'package:intl/intl.dart';
+import 'package:kembang_belor_apps/features/home/data/models/acara.dart';
 
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
