@@ -5,8 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/google_login/bloc/login_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/google_login/bloc/auth_bloc.dart';
 import 'package:svg_flutter/svg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,12 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSucces) {
-            log('Berhasil Login');
-          }
-        },
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
             body: Padding(
@@ -142,11 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 50,
                           width: double.infinity,
                           child: ElevatedButton.icon(
-                              onPressed: () {
-                                context
-                                    .read<LoginBloc>()
-                                    .add(AppLoginRequested());
-                              },
+                              onPressed: () {},
                               icon: SvgPicture.asset(
                                 'assets/images/google.svg',
                                 height: 20,
