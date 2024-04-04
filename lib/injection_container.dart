@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:kembang_belor_apps/core/resources/observer/observer.dart';
+import 'package:kembang_belor_apps/features/auth/data/data_source/login/login_data_source.dart';
+import 'package:kembang_belor_apps/features/auth/data/repository/login_repository_impl.dart';
+import 'package:kembang_belor_apps/features/auth/domain/repository/login_repository.dart';
+import 'package:kembang_belor_apps/features/auth/domain/usecases/login_usecase.dart';
 import 'package:kembang_belor_apps/features/home/data/data_source/remote.dart';
 import 'package:kembang_belor_apps/features/home/data/repository/tourism_repository_impl.dart';
 import 'package:kembang_belor_apps/features/home/domain/repository/tourism_repository.dart';
@@ -22,4 +25,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetPaymentLinkDataSource>(GetPaymentLinkDataSource());
   sl.registerSingleton<PaymentRepository>(PaymentRepositoryImpl(sl()));
   sl.registerSingleton<GetPaymentLinkUseCase>(GetPaymentLinkUseCase(sl()));
+
+  sl.registerSingleton<LoginDataSource>(LoginDataSource());
+  sl.registerSingleton<LoginRepository>(LoginRepositoryImpl(sl()));
+  sl.registerSingleton<LoginUseCase>(LoginUseCase(sl()));
 }

@@ -8,12 +8,14 @@ class LoginDataSource {
     /// TODO: update the Web client ID with your own.
     ///
     /// Web Client ID that you registered with Google Cloud.
-    const webClientId = 'my-web.apps.googleusercontent.com';
+    const webClientId =
+        '889220975978-itso955cble18akissvhm87fggqd3m39.apps.googleusercontent.com';
 
     /// TODO: update the iOS client ID with your own.
     ///
     /// iOS Client ID that you registered with Google Cloud.
-    const iosClientId = 'my-ios.apps.googleusercontent.com';
+    const iosClientId =
+        '889220975978-1mj68l18nvl6en96nkk3einkmkg7n8fp.apps.googleusercontent.com';
 
     // Google sign in on Android will work without providing the Android
     // Client ID registered on Google Cloud.

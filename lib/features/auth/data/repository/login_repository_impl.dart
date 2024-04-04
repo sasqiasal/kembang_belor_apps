@@ -3,7 +3,7 @@ import 'package:kembang_belor_apps/features/auth/data/data_source/login/login_da
 import 'package:kembang_belor_apps/features/auth/domain/repository/login_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract class LoginRepositoryImpl implements LoginRepository {
+class LoginRepositoryImpl implements LoginRepository {
   final LoginDataSource _loginDataSource;
 
   LoginRepositoryImpl(this._loginDataSource);
