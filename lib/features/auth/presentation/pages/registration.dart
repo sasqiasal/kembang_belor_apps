@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
-import 'package:svg_flutter/svg.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -128,16 +126,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   SizedBox(
                     height: 50,
                     width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          context
-                              .read<RegisterBloc>()
-                              .add(RegistrationRegisterButtonPressed());
-                        },
-                        child: const Text(
-                          'Registrasi',
-                          style: TextStyle(fontSize: 16),
-                        )),
+                    child: BlocConsumer<RegisterBloc, RegisterState>(
+                      listener: (context, state) {
+                        if (state.formSubmissionStatus ==
+                            FormSubmissionStatus.success) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      builder: (context, state) {
+                        return ElevatedButton(
+                            onPressed: () {
+                              context
+                                  .read<RegisterBloc>()
+                                  .add(RegistrationRegisterButtonPressed());
+                            },
+                            child: Text(
+                              state.isSubmitting() ? 'Submitting' : 'Register',
+                              style: const TextStyle(fontSize: 16),
+                            ));
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 50,

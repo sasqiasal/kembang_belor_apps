@@ -26,21 +26,11 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
         child: MultiBlocListener(
             listeners: [
-          BlocListener<AuthBloc, AuthStates>(
-            listener: (context, state) {
-              if (state is AuthUserUnauthenticated) {
-                log('Belum Login');
-              }
-              if (state is AuthUserAuthenticated) {
-                Navigator.of(context).pushReplacementNamed('/login');
-              }
-            },
-          ),
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state.formSubmissionStatus == FormSubmissionStatus.failure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Email Atau Passoword Anda Salah')));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Email Atau Passoword Anda Salah')));
               }
             },
           )

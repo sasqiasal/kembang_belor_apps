@@ -61,7 +61,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             Spacer(),
             Divider(),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                context.read<AuthBloc>().add(AuthLogoutButtonPressed());
+                Navigator.of(context).popAndPushNamed('/login');
+              },
               leading: Icon(Icons.logout),
               title: Text('Keluar'),
             )

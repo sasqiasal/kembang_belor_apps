@@ -12,7 +12,7 @@ import 'package:kembang_belor_apps/features/payment/presentation/pages/payment.d
 class AppRoute {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case '/login':
         return _materialRoute(const LoginPage());
       case '/registration':
         return _materialRoute(const RegistrationPage());

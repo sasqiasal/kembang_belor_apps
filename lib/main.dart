@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
           create: (context) => PaymentBloc(sl()),
         ),
         BlocProvider(
-          create: (context) => AuthBloc(sl()),
+          create: (context) => AuthBloc(sl())..add(AuthInitialCheckRequested()),
         ),
         BlocProvider(create: (context) => LoginBloc(sl())),
         BlocProvider(create: (context) => RegisterBloc(sl())),
@@ -51,8 +53,19 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
-        home: const LoginPage(),
-        initialRoute: '/',
+        home: BlocConsumer<AuthBloc, AuthStates>(
+          listener: (context, state) {
+            if (state is AuthUserUnauthenticated) {
+              Navigator.of(context).pushReplacementNamed('/login');
+            }
+            if (state is AuthUserAuthenticated) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            }
+          },
+          builder: (context, state) {
+            return Placeholder();
+          },
+        ),
         onGenerateRoute: AppRoute.onGenerateRoute,
       ),
     );
