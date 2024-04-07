@@ -24,4 +24,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(PaymentError(dataState.error!));
     }
   }
+
+  Future<void> _paymentTokenChanged() async {}
 }

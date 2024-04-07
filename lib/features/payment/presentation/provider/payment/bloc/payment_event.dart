@@ -15,3 +15,9 @@ class GetPaymentLink extends PaymentEvent {
   @override
   List<Object> get props => [params];
 }
+
+class SavePaymentPending extends PaymentEvent {
+  final String token;
+
+  SavePaymentPending(this.token);
+}

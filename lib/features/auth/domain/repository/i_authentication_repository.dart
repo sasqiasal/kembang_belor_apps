@@ -5,10 +5,11 @@ abstract class IAuthenticationRepository {
     required String email,
     required String password,
   });
-  Future<void> signUpWithEmailAndPassword({
-    required String email,
-    required String password,
-  });
+  Future<void> signUpWithEmailAndPassword(
+      {required String email,
+      required String password,
+      required String name,
+      required String phoneNumber});
   Future<AuthResponse> signInWithGoogle();
   Future<void> signOut();
   Stream<User?> getCurrentUser();

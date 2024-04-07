@@ -21,7 +21,6 @@ class GetPaymentLinkDataSource {
         }
       },
     );
-    print(jsonData.data);
 
     return GetPaymentModel.fromMap(jsonData.data);
   }

@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
 import 'package:svg_flutter/svg.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -33,57 +36,91 @@ class _RegistrationPageState extends State<RegistrationPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Masukkan Nama';
-                      }
-                      return null;
+                  BlocBuilder<RegisterBloc, RegisterState>(
+                    builder: (context, state) {
+                      return TextFormField(
+                        onChanged: (value) => context
+                            .read<RegisterBloc>()
+                            .add(RegistrationNameChanged(value)),
+                        decoration: InputDecoration(
+                            hintText: 'Nama',
+                            errorText: state.name.hasError
+                                ? state.name.errorMessage
+                                : null,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      );
                     },
-                    decoration: InputDecoration(
-                        hintText: 'Name',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Masukkan Email';
-                      }
-                      return null;
+                  BlocBuilder<RegisterBloc, RegisterState>(
+                    buildWhen: (previous, current) =>
+                        current.phoneNumber != previous.phoneNumber,
+                    builder: (context, state) {
+                      return TextFormField(
+                          onChanged: (value) => context
+                              .read<RegisterBloc>()
+                              .add(RegistrationPhoneNumberChanged(value)),
+                          decoration: InputDecoration(
+                              hintText: 'Nomor Telepon',
+                              errorText: state.phoneNumber.hasError
+                                  ? state.phoneNumber.errorMessage
+                                  : null,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10))));
                     },
-                    decoration: InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    obscureText: !_viewPassword,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Masukkan Password';
-                      }
-                      return null;
+                  BlocBuilder<RegisterBloc, RegisterState>(
+                    builder: (context, state) {
+                      return TextFormField(
+                        onChanged: (value) => context
+                            .read<RegisterBloc>()
+                            .add(RegistrationEmailAddressChanged(value)),
+                        decoration: InputDecoration(
+                            hintText: 'Email',
+                            errorText: state.email.hasError
+                                ? state.email.errorMessage
+                                : null,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      );
                     },
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _viewPassword = !_viewPassword;
-                              });
-                            },
-                            icon: Icon(_viewPassword
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                        hintText: 'Password',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  BlocBuilder<RegisterBloc, RegisterState>(
+                    buildWhen: (previous, current) =>
+                        current.password != previous.password,
+                    builder: (context, state) {
+                      return TextFormField(
+                        onChanged: (value) => context
+                            .read<RegisterBloc>()
+                            .add(RegistrationPasswordChanged(value)),
+                        obscureText: !_viewPassword,
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _viewPassword = !_viewPassword;
+                                  });
+                                },
+                                icon: Icon(_viewPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off)),
+                            hintText: 'Password',
+                            errorText: state.password.hasError
+                                ? state.password.errorMessage
+                                : null,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 20,
@@ -93,11 +130,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
-                            );
-                          }
+                          context
+                              .read<RegisterBloc>()
+                              .add(RegistrationRegisterButtonPressed());
                         },
                         child: const Text(
                           'Registrasi',
@@ -127,16 +162,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             RichText(
                 text: TextSpan(
-                    text: 'Belum punya akun? ',
+                    text: 'Sudah punya akun? ',
                     style: Theme.of(context).textTheme.titleMedium,
                     children: [
                   TextSpan(
-                      text: 'Registrasi Sekarang',
+                      text: 'Login Sekarang',
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () =>
-                            Navigator.of(context).pushNamed('/registration'))
+                        ..onTap = () => Navigator.of(context).pop())
                 ]))
           ],
         ),

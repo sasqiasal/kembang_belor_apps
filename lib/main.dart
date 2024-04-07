@@ -6,7 +6,9 @@ import 'package:kembang_belor_apps/config/theme/theme.dart';
 import 'package:kembang_belor_apps/core/constant/constant.dart';
 import 'package:kembang_belor_apps/core/resources/observer/observer.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/google_login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
@@ -41,8 +43,10 @@ class MyApp extends StatelessWidget {
           create: (context) => PaymentBloc(sl()),
         ),
         BlocProvider(
-          create: (context) => LoginBloc(sl()),
-        )
+          create: (context) => AuthBloc(sl()),
+        ),
+        BlocProvider(create: (context) => LoginBloc(sl())),
+        BlocProvider(create: (context) => RegisterBloc(sl())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

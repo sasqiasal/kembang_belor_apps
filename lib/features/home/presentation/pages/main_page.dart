@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/home_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/news_page.dart';
 
@@ -36,6 +38,36 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       //   index: currentPage,
       //   children: _pages,
       // ),
+      appBar: AppBar(),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: BlocBuilder<AuthBloc, AuthStates>(
+                builder: (context, state) => Text(
+                    'Welcome\n${state is AuthUserAuthenticated ? state.user.userMetadata!['name'] : 'User'}'),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Edit Identitas'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('Riwayat Pembayaran'),
+              onTap: () {},
+            ),
+            Spacer(),
+            Divider(),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.logout),
+              title: Text('Keluar'),
+            )
+          ],
+        ),
+      ),
       body: PageView.builder(
         controller: _pageViewController,
         onPageChanged: _handlePageViewChanged,
