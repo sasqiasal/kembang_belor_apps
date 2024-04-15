@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/home_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/news_page.dart';
+import 'package:kembang_belor_apps/features/home/presentation/providers/recently/bloc/recently_tourism_bloc.dart';
+import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:kembang_belor_apps/injection_container.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -63,7 +69,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             ListTile(
               onTap: () {
                 context.read<AuthBloc>().add(AuthLogoutButtonPressed());
-                Navigator.of(context).popAndPushNamed('/login');
               },
               leading: Icon(Icons.logout),
               title: Text('Keluar'),
@@ -71,10 +76,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: PageView.builder(
-        controller: _pageViewController,
-        onPageChanged: _handlePageViewChanged,
-        itemBuilder: (context, index) => _pages[index],
+      body: BlocListener<AuthBloc, AuthStates>(
+        listener: (context, state) {
+          if (state is AuthUserUnauthenticated) {
+            Navigator.of(context).popAndPushNamed('/login');
+          }
+        },
+        child: PageView.builder(
+          controller: _pageViewController,
+          onPageChanged: _handlePageViewChanged,
+          itemBuilder: (context, index) => _pages[index],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentPageIndex,

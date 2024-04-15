@@ -17,7 +17,7 @@ class GetPaymentLink extends PaymentEvent {
 }
 
 class SavePaymentPending extends PaymentEvent {
-  final String token;
+  final TransactionResult result;
 
-  SavePaymentPending(this.token);
+  SavePaymentPending(this.result);
 }

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
 import 'package:midtrans_sdk/midtrans_sdk.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -21,8 +22,6 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   MidtransSDK? _midtrans;
-  final ValueNotifier<TransactionResult> _valueNotifier =
-      ValueNotifier<TransactionResult>(TransactionResult());
 
   @override
   void initState() {
@@ -41,7 +40,9 @@ class _PaymentPageState extends State<PaymentPage> {
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      _valueNotifier.value = result;
+      context
+          .read<CheckPaymentBloc>()
+          .add(CheckPayment(result, widget.selectedTourismPayment));
     });
   }
 
@@ -49,123 +50,142 @@ class _PaymentPageState extends State<PaymentPage> {
   void dispose() {
     super.dispose();
     _midtrans?.removeTransactionFinishedCallback();
-    _valueNotifier.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pesanan Anda'),
-      ),
-      body: BlocConsumer<PaymentBloc, PaymentState>(
-        listener: (context, state) async {
-          if (state is PaymentLoading) {}
+    return BlocListener<CheckPaymentBloc, CheckPaymentState>(
+      listener: (context, state) {
+        if (state is CheckPaymentSucces) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              '/receipt', ModalRoute.withName('/home'));
+        }
+       
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Pesanan Anda'),
+        ),
+        body: BlocConsumer<PaymentBloc, PaymentState>(
+          listener: (context, state) async {
+            if (state is PaymentLoading) {}
 
-          if (state is PaymentError) {
-            log(state.error!);
-          }
+            if (state is PaymentError) {
+              log(state.error!);
+            }
 
-          if (state is PaymentSucess) {
-            log(state.model!.toString());
-            _midtrans!.startPaymentUiFlow(token: state.model!.token);
-          }
-        },
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Row(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl:
-                              widget.selectedTourismPayment.entity.imageUrl!,
-                          imageBuilder: (context, imageProvider) => Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover)),
+            if (state is PaymentSucess) {
+              log(state.model!.toString());
+              _midtrans!.startPaymentUiFlow(token: state.model!.token);
+            }
+          },
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl:
+                                widget.selectedTourismPayment.entity.imageUrl!,
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover)),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Tiket Masuk',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              widget.selectedTourismPayment.entity.name!,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Text('Hari'),
-                            Text('Tanggal')
-                          ],
-                        )
-                      ],
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tiket Masuk',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                widget.selectedTourismPayment.entity.name!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              Text(DateFormat('EEEE')
+                                  .format(widget.selectedTourismPayment.date)),
+                              Text(DateFormat('dd MMMM yyyy')
+                                  .format(widget.selectedTourismPayment.date))
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Detail Pesanan',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      '${widget.selectedTourismPayment.qty.toString()} Tiket',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(
-                        'Rp. ${widget.selectedTourismPayment.qty * widget.selectedTourismPayment.entity.htm!}',
-                        style: Theme.of(context).textTheme.headlineSmall)
-                  ],
-                ),
-                Spacer(),
-                SizedBox(
-                  height: 75,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.read<PaymentBloc>().add(GetPaymentLink(
-                            params: {
-                              'orderId': getCurrentDateTimeString(),
-                              'grossAmount': widget.selectedTourismPayment.qty *
-                                  widget.selectedTourismPayment.entity.htm!
-                            },
-                          ));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.headlineMedium),
-                    child: const Text('Bayar Sekarang'),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Detail Pesanan',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        '${widget.selectedTourismPayment.qty.toString()} Tiket',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      Text(
+                          'Rp. ${widget.selectedTourismPayment.qty * widget.selectedTourismPayment.entity.htm!}',
+                          style: Theme.of(context).textTheme.headlineSmall)
+                    ],
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 75,
+                    width: double.infinity,
+                    child: BlocBuilder<PaymentBloc, PaymentState>(
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            context.read<PaymentBloc>().add(GetPaymentLink(
+                                  params: {
+                                    'orderId': getCurrentDateTimeString(),
+                                    'grossAmount':
+                                        widget.selectedTourismPayment.qty *
+                                            widget.selectedTourismPayment.entity
+                                                .htm!
+                                  },
+                                ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              textStyle:
+                                  Theme.of(context).textTheme.headlineMedium),
+                          child: Text(state is PaymentLoading
+                              ? 'Tunggu Sebentar'
+                              : 'Bayar Sekarang'),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

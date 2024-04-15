@@ -63,6 +63,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     try {
       await _authenticationRepository.signInWithGoogle();
+      
       emit(state.copyWith(formSubmissionStatus: FormSubmissionStatus.success));
     } catch (e) {
       log(e.toString());

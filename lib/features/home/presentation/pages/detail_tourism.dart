@@ -26,7 +26,7 @@ class _DetailTourimsState extends State<DetailTourims> {
   void initState() {
     super.initState();
     _currentValue = 0;
-    date = DateTime.now();
+    date = DateTime.now().add(const Duration(days: 1));
   }
 
   @override
@@ -63,13 +63,33 @@ class _DetailTourimsState extends State<DetailTourims> {
                             children: <Widget>[
                               const Text('Jumlah Pengunjung'),
                               Center(
-                                child: NumberPicker(
-                                  minValue: 0,
-                                  maxValue: 20,
-                                  axis: Axis.horizontal,
-                                  value: _currentValue,
-                                  onChanged: (value) =>
-                                      setState(() => _currentValue = value),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() => _currentValue != 0
+                                              ? _currentValue =
+                                                  _currentValue - 1
+                                              : _currentValue);
+                                        },
+                                        icon: Icon(Icons.remove)),
+                                    NumberPicker(
+                                      minValue: 0,
+                                      maxValue: 20,
+                                      axis: Axis.vertical,
+                                      value: _currentValue,
+                                      onChanged: (value) =>
+                                          setState(() => _currentValue = value),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() => _currentValue =
+                                              _currentValue + 1);
+                                        },
+                                        icon: Icon(Icons.add))
+                                  ],
                                 ),
                               ),
                               Row(
@@ -99,7 +119,7 @@ class _DetailTourimsState extends State<DetailTourims> {
                                     Navigator.of(context).pushNamed('/payment',
                                         arguments: PaymentTourism(
                                             qty: _currentValue,
-                                            date: DateTime.now(),
+                                            date: date,
                                             entity: widget.entity));
                                   },
                                 ),

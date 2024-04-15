@@ -28,10 +28,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
           password: password,
           email: email,
           emailRedirectTo: _redirectUrl,
-          data: {
-            'name': name,
-            'phone': phoneNumber,
-          });
+          data: {'name': name, 'phone': phoneNumber, 'role': 'user'});
 
   @override
   Future<void> signOut() async => await _supabaseAuth.signOut();

@@ -12,6 +12,7 @@ import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/recently/bloc/recently_tourism_bloc.dart';
@@ -24,7 +25,10 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   initializeDependencies();
   Bloc.observer = MyBlocObserver();
-  runApp(const MyApp());
+  runApp(BlocProvider(
+    create: (context) => AuthBloc(sl())..add(AuthInitialCheckRequested()),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -44,15 +48,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PaymentBloc(sl()),
         ),
-        BlocProvider(
-          create: (context) => AuthBloc(sl())..add(AuthInitialCheckRequested()),
-        ),
         BlocProvider(create: (context) => LoginBloc(sl())),
         BlocProvider(create: (context) => RegisterBloc(sl())),
+        BlocProvider(create: (context) => AuthBloc(sl())),
+        BlocProvider(create: (context) => CheckPaymentBloc(sl()))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
+        initialRoute: '/',
         home: BlocConsumer<AuthBloc, AuthStates>(
           listener: (context, state) {
             if (state is AuthUserUnauthenticated) {
@@ -62,7 +66,7 @@ class MyApp extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/home');
             }
           },
-          builder: (context, state) {
+          builder: (BuildContext context, AuthStates state) {
             return Placeholder();
           },
         ),

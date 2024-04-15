@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:svg_flutter/svg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,6 +32,16 @@ class _LoginPageState extends State<LoginPage> {
               if (state.formSubmissionStatus == FormSubmissionStatus.failure) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Email Atau Passoword Anda Salah')));
+              }
+            },
+          ),
+          BlocListener<AuthBloc, AuthStates>(
+            listener: (context, state) {
+              if (state is AuthUserUnauthenticated) {
+                Navigator.of(context).pushReplacementNamed('/login');
+              }
+              if (state is AuthUserAuthenticated) {
+                Navigator.of(context).pushReplacementNamed('/home');
               }
             },
           )
@@ -76,6 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                                         LoginEmailAddressChanged(email: value)),
                                 decoration: InputDecoration(
                                     hintText: 'Email',
+                                    errorText: state.email.hasError
+                                        ? state.email.errorMessage
+                                        : null,
                                     border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(10))),

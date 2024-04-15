@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
+import 'package:kembang_belor_apps/injection_container.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -141,7 +142,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   .add(RegistrationRegisterButtonPressed());
                             },
                             child: Text(
-                              state.isSubmitting() ? 'Submitting' : 'Register',
+                              state.isSubmitting()
+                                  ? 'Submitting'
+                                  : 'Register',
                               style: const TextStyle(fontSize: 16),
                             ));
                       },
@@ -150,7 +153,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   const SizedBox(
                     height: 50,
                   ),
-
+    
                   // SizedBox(
                   //   height: 50,
                   //   width: double.infinity,
