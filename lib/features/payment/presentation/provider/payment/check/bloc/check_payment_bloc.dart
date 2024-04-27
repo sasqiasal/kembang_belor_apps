@@ -13,7 +13,6 @@ class CheckPaymentBloc extends Bloc<CheckPaymentEvent, CheckPaymentState> {
   final PaymentRepository _paymentRepository;
   CheckPaymentBloc(this._paymentRepository) : super(CheckPaymentInitial()) {
     on<CheckPayment>(_checkPayment);
-    on<InsertPayment>(_insertPayment);
   }
 
   void _checkPayment(
@@ -28,20 +27,13 @@ class CheckPaymentBloc extends Bloc<CheckPaymentEvent, CheckPaymentState> {
         data: event._tourism,
         result: event._result,
       ));
+      await _paymentRepository.insertData(
+          id: orderID,
+          uuid: event.uuid,
+          date: event._tourism.date,
+          idTourism: event._tourism.entity.id!);
     } else {
       emit(CheckPaymentFailed());
     }
-  }
-
-  void _insertPayment(
-    InsertPayment event,
-    Emitter<CheckPaymentState> emit,
-  ) async {
-    await _paymentRepository.insertData(
-        id: event.id,
-        uuid: event.uuid,
-        date: event.data.date,
-        idTourism: event.data.entity.id!);
-    emit(InsertPaymentSucces());
   }
 }

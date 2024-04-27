@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
+import 'package:kembang_belor_apps/features/event/presentation/pages/event.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/home_page.dart';
-import 'package:kembang_belor_apps/features/home/presentation/pages/news_page.dart';
-import 'package:kembang_belor_apps/features/home/presentation/providers/recently/bloc/recently_tourism_bloc.dart';
-import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
-import 'package:kembang_belor_apps/injection_container.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -20,7 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
-  final _pages = [const HomePage(), const NewsPage()];
+  final _pages = [const HomePage(), const EvenetPage()];
   int _currentPageIndex = 0;
 
   @override
@@ -60,6 +54,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               onTap: () {},
             ),
             ListTile(
+              leading: Icon(
+                Icons.local_activity,
+              ),
+              title: Text('Ticket Anda'),
+            ),
+            ListTile(
               leading: Icon(Icons.payment),
               title: Text('Riwayat Pembayaran'),
               onTap: () {},
@@ -85,16 +85,19 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         child: PageView.builder(
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
+          itemCount: _pages.length,
           itemBuilder: (context, index) => _pages[index],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentPageIndex,
+        currentIndex: (_currentPageIndex == 0 || _currentPageIndex == 1)
+            ? _currentPageIndex
+            : 0,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: 'News',
+            icon: Icon(Icons.event),
+            label: 'Event',
           )
         ],
         onTap: (value) {

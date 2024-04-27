@@ -10,8 +10,8 @@ sealed class CheckPaymentEvent extends Equatable {
 final class CheckPayment extends CheckPaymentEvent {
   final TransactionResult _result;
   final PaymentTourism _tourism;
-
-  const CheckPayment(this._result, this._tourism);
+  final User uuid;
+  const CheckPayment(this._result, this._tourism, this.uuid);
 }
 
 final class InsertPayment extends CheckPaymentEvent {

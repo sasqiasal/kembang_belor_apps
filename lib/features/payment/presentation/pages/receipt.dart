@@ -19,11 +19,6 @@ class ReceiptPage extends StatelessWidget {
             return BlocBuilder<CheckPaymentBloc, CheckPaymentState>(
               builder: (context, state) {
                 if (state is CheckPaymentSucces) {
-                  context.read<CheckPaymentBloc>().add(InsertPayment(
-                      data: state.data,
-                      uuid: _user,
-                      id: state.id,
-                      result: state.result));
                   return Scaffold(
                     appBar: AppBar(
                       title: Text('Bukti Pembayaran'),

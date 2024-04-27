@@ -25,7 +25,7 @@ class _DetailTourimsState extends State<DetailTourims> {
   @override
   void initState() {
     super.initState();
-    _currentValue = 0;
+    _currentValue = 1;
     date = DateTime.now().add(const Duration(days: 1));
   }
 

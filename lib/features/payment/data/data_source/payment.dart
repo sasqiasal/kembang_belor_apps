@@ -30,24 +30,25 @@ class GetPaymentLinkDataSource {
   final supabase = Supabase.instance.client;
 
   Future<String> getUID() async {
-    final dateNow = DateFormat('ddMMyyyy').format(DateTime.now());
+    final date = DateTime.now();
+    final dateNow = DateFormat('yyyy-MM-dd').format(date);
+    final dateTimeInserted = DateFormat('ddMMyyyy').format(date);
     try {
       final data = await supabase
           .from('ticket')
           .select('id')
-          .eq('added_at', DateTime.now())
-          .order('id', ascending: false)
-          .limit(1);
+          .eq('added_at::date', dateNow)
+          .order('id');
 
       if (data.isEmpty) {
-        return 'TSC${dateNow}00001';
+        return 'TSC${dateTimeInserted}00001';
       }
       final lastId = data.first['id'];
-      final lastNumber = int.parse(lastId.split('TSC$dateNow')[1]);
+      final lastNumber = int.parse(lastId.split('TSC$dateTimeInserted')[1]);
       final newNumber = lastNumber + 1;
       final paddedNumber = newNumber.toString().padLeft(5, '0');
 
-      return 'TSC$dateNow$paddedNumber';
+      return 'TSC$dateTimeInserted$paddedNumber';
     } catch (e) {
       return e.toString();
     }
@@ -61,7 +62,8 @@ class GetPaymentLinkDataSource {
     await supabase.from('ticket').insert({
       'id': id,
       'user_id': uuid.id,
-      'added_at': date,
+      'checkin_at': date.toIso8601String(),
+      'added_at': DateTime.now().toIso8601String(),
       'tourism_id': tourism
     });
   }

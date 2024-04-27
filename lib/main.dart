@@ -11,6 +11,7 @@ import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
+import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
@@ -51,11 +52,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LoginBloc(sl())),
         BlocProvider(create: (context) => RegisterBloc(sl())),
         BlocProvider(create: (context) => AuthBloc(sl())),
-        BlocProvider(create: (context) => CheckPaymentBloc(sl()))
+        BlocProvider(create: (context) => CheckPaymentBloc(sl())),
+        BlocProvider(
+          create: (context) => EventBloc(sl())..add(EventFetch()),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         home: BlocConsumer<AuthBloc, AuthStates>(
           listener: (context, state) {
