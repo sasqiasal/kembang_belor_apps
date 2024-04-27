@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -5,7 +7,13 @@ import 'package:kembang_belor_apps/config/router/route.dart';
 import 'package:kembang_belor_apps/config/theme/theme.dart';
 import 'package:kembang_belor_apps/core/constant/constant.dart';
 import 'package:kembang_belor_apps/core/resources/observer/observer.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
+import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/recently/bloc/recently_tourism_bloc.dart';
@@ -18,7 +26,10 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   initializeDependencies();
   Bloc.observer = MyBlocObserver();
-  runApp(const MyApp());
+  runApp(BlocProvider(
+    create: (context) => AuthBloc(sl())..add(AuthInitialCheckRequested()),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,13 +48,33 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PaymentBloc(sl()),
+        ),
+        BlocProvider(create: (context) => LoginBloc(sl())),
+        BlocProvider(create: (context) => RegisterBloc(sl())),
+        BlocProvider(create: (context) => AuthBloc(sl())),
+        BlocProvider(create: (context) => CheckPaymentBloc(sl())),
+        BlocProvider(
+          create: (context) => EventBloc(sl())..add(EventFetch()),
         )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
-        home: const MainPage(),
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
+        home: BlocConsumer<AuthBloc, AuthStates>(
+          listener: (context, state) {
+            if (state is AuthUserUnauthenticated) {
+              Navigator.of(context).pushReplacementNamed('/login');
+            }
+            if (state is AuthUserAuthenticated) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            }
+          },
+          builder: (BuildContext context, AuthStates state) {
+            return Placeholder();
+          },
+        ),
         onGenerateRoute: AppRoute.onGenerateRoute,
       ),
     );

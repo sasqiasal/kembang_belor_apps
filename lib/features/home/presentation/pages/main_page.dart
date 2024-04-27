@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
+import 'package:kembang_belor_apps/features/event/presentation/pages/event.dart';
 import 'package:kembang_belor_apps/features/home/presentation/pages/home_page.dart';
-import 'package:kembang_belor_apps/features/home/presentation/pages/news_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -12,7 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
-  final _pages = [const HomePage(), const NewsPage()];
+  final _pages = [const HomePage(), const EvenetPage()];
   int _currentPageIndex = 0;
 
   @override
@@ -36,18 +38,66 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       //   index: currentPage,
       //   children: _pages,
       // ),
-      body: PageView.builder(
-        controller: _pageViewController,
-        onPageChanged: _handlePageViewChanged,
-        itemBuilder: (context, index) => _pages[index],
+      appBar: AppBar(),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: BlocBuilder<AuthBloc, AuthStates>(
+                builder: (context, state) => Text(
+                    'Welcome\n${state is AuthUserAuthenticated ? state.user.userMetadata!['name'] : 'User'}'),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Edit Identitas'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.local_activity,
+              ),
+              title: Text('Ticket Anda'),
+            ),
+            ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('Riwayat Pembayaran'),
+              onTap: () {},
+            ),
+            Spacer(),
+            Divider(),
+            ListTile(
+              onTap: () {
+                context.read<AuthBloc>().add(AuthLogoutButtonPressed());
+              },
+              leading: Icon(Icons.logout),
+              title: Text('Keluar'),
+            )
+          ],
+        ),
+      ),
+      body: BlocListener<AuthBloc, AuthStates>(
+        listener: (context, state) {
+          if (state is AuthUserUnauthenticated) {
+            Navigator.of(context).popAndPushNamed('/login');
+          }
+        },
+        child: PageView.builder(
+          controller: _pageViewController,
+          onPageChanged: _handlePageViewChanged,
+          itemCount: _pages.length,
+          itemBuilder: (context, index) => _pages[index],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentPageIndex,
+        currentIndex: (_currentPageIndex == 0 || _currentPageIndex == 1)
+            ? _currentPageIndex
+            : 0,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: 'News',
+            icon: Icon(Icons.event),
+            label: 'Event',
           )
         ],
         onTap: (value) {
