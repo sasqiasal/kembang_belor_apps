@@ -12,10 +12,11 @@ import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
 import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/history/bloc/history_payment_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/ticket/bloc/ticket_bloc.dart';
 import 'package:kembang_belor_apps/injection_container.dart';
-import 'package:kembang_belor_apps/features/home/presentation/pages/main_page.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/recently/bloc/recently_tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -53,13 +54,19 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => RegisterBloc(sl())),
         BlocProvider(create: (context) => AuthBloc(sl())),
         BlocProvider(create: (context) => CheckPaymentBloc(sl())),
-        BlocProvider(
-          create: (context) => EventBloc(sl())..add(EventFetch()),
-        )
+        BlocProvider(create: (context) => EventBloc(sl())..add(EventFetch())),
+        BlocProvider(create: (context) => HistoryPaymentBloc(sl())),
+        BlocProvider(create: (context) => TicketBloc(sl()))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme(),
+        // localizationsDelegates: const [
+        //   GlobalMaterialLocalizations,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
+        // supportedLocales: const [Locale('id', '')],
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         home: BlocConsumer<AuthBloc, AuthStates>(

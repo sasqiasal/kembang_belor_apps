@@ -16,6 +16,8 @@ import 'package:kembang_belor_apps/features/home/domain/usecases/get_tourism.dar
 import 'package:kembang_belor_apps/features/payment/data/data_source/payment.dart';
 import 'package:kembang_belor_apps/features/payment/data/repository/payment_impl.dart';
 import 'package:kembang_belor_apps/features/payment/domain/repository/payment_repository.dart';
+import 'package:kembang_belor_apps/features/payment/domain/usecases/history_payment.dart';
+import 'package:kembang_belor_apps/features/payment/domain/usecases/my_ticket.dart';
 import 'package:kembang_belor_apps/features/payment/domain/usecases/payment.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -29,9 +31,12 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetRecentlyFaciliesUseCase>(
       GetRecentlyFaciliesUseCase(sl()));
 
-  sl.registerSingleton<GetPaymentLinkDataSource>(GetPaymentLinkDataSource());
+  sl.registerSingleton<PaymentRemoteDataSource>(PaymentRemoteDataSource());
   sl.registerSingleton<PaymentRepository>(PaymentRepositoryImpl(sl()));
   sl.registerSingleton<GetPaymentLinkUseCase>(GetPaymentLinkUseCase(sl()));
+  sl.registerSingleton<GetMyTicketUseCase>(GetMyTicketUseCase(sl()));
+  sl.registerSingleton<GetHistoryPaymentUseCase>(
+      GetHistoryPaymentUseCase(sl()));
 
   sl.registerSingleton(Supabase.instance.client.auth);
 

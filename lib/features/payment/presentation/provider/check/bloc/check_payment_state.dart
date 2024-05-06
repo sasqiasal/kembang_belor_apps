@@ -21,3 +21,5 @@ final class CheckPaymentSucces extends CheckPaymentState {
 final class CheckPaymentFailed extends CheckPaymentState {}
 
 final class InsertPaymentSucces extends CheckPaymentState {}
+
+final class InsertPaymentFailure extends CheckPaymentState {}

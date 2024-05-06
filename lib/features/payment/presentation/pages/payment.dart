@@ -9,7 +9,7 @@ import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc
 import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
 import 'package:midtrans_sdk/midtrans_sdk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -45,9 +45,11 @@ class _PaymentPageState extends State<PaymentPage> {
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      context
-          .read<CheckPaymentBloc>()
-          .add(CheckPayment(result, widget.selectedTourismPayment, user));
+      context.read<CheckPaymentBloc>().add(CheckPayment(
+            result,
+            widget.selectedTourismPayment,
+            user,
+          ));
     });
   }
 

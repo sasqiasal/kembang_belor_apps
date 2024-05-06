@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
-  final _pages = [const HomePage(), const EvenetPage()];
+  final _pages = [const HomePage(), const EventPage()];
   int _currentPageIndex = 0;
 
   @override
@@ -49,29 +49,33 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Edit Identitas'),
+              leading: const Icon(Icons.person),
+              title: const Text('Edit Identitas'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.local_activity,
               ),
               title: Text('Ticket Anda'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/tiket_saya');
+              },
             ),
             ListTile(
-              leading: Icon(Icons.payment),
-              title: Text('Riwayat Pembayaran'),
-              onTap: () {},
+              leading: const Icon(Icons.payment),
+              title: const Text('Riwayat Pembayaran'),
+              onTap: () =>
+                  Navigator.of(context).pushNamed('/riwayat_pembayaran'),
             ),
-            Spacer(),
-            Divider(),
+            const Spacer(),
+            const Divider(),
             ListTile(
               onTap: () {
                 context.read<AuthBloc>().add(AuthLogoutButtonPressed());
               },
-              leading: Icon(Icons.logout),
-              title: Text('Keluar'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Keluar'),
             )
           ],
         ),

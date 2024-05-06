@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ReceiptPage extends StatelessWidget {
@@ -13,12 +13,17 @@ class ReceiptPage extends StatelessWidget {
     late final User _user;
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthStates>(
-        builder: (context, state) {
-          if (state is AuthUserAuthenticated) {
-            _user = state.user;
+        builder: (context, authState) {
+          if (authState is AuthUserAuthenticated) {
+            _user = authState.user;
             return BlocBuilder<CheckPaymentBloc, CheckPaymentState>(
               builder: (context, state) {
                 if (state is CheckPaymentSucces) {
+                  context.read<CheckPaymentBloc>().add(InsertPayment(
+                      uuid: authState.user,
+                      id: state.id,
+                      result: state.result,
+                      data: state.data));
                   return Scaffold(
                     appBar: AppBar(
                       title: Text('Bukti Pembayaran'),

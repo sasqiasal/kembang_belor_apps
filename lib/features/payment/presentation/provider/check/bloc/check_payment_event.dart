@@ -11,7 +11,12 @@ final class CheckPayment extends CheckPaymentEvent {
   final TransactionResult _result;
   final PaymentTourism _tourism;
   final User uuid;
-  const CheckPayment(this._result, this._tourism, this.uuid);
+
+  const CheckPayment(
+    this._result,
+    this._tourism,
+    this.uuid,
+  );
 }
 
 final class InsertPayment extends CheckPaymentEvent {
@@ -20,9 +25,10 @@ final class InsertPayment extends CheckPaymentEvent {
   final User uuid;
   final PaymentTourism data;
 
-  InsertPayment(
-      {required this.uuid,
-      required this.id,
-      required this.result,
-      required this.data});
+  const InsertPayment({
+    required this.uuid,
+    required this.id,
+    required this.result,
+    required this.data,
+  });
 }
