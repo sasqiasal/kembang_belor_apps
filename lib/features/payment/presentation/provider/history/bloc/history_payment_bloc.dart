@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:kembang_belor_apps/core/resources/data_state/data_state.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/ticket.dart';
 import 'package:kembang_belor_apps/features/payment/domain/usecases/history_payment.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 
 part 'history_payment_event.dart';
 part 'history_payment_state.dart';

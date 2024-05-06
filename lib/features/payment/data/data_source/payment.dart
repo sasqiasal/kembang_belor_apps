@@ -93,6 +93,7 @@ class PaymentRemoteDataSource {
           .select()
           .gte('checkin_at', DateTime.now())
           .eq('is_checkin', false)
+          .eq('user_id', uuid)
           .order('checkin_at', ascending: true);
 
       List<TicketModel> listEvent =

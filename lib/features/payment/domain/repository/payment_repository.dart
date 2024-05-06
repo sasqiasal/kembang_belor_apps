@@ -1,7 +1,6 @@
 import 'package:kembang_belor_apps/core/resources/data_state/data_state.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/ticket.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/payment_entity.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/pages/payment_history.dart';
 import 'package:supabase/supabase.dart';
 
 abstract class PaymentRepository {

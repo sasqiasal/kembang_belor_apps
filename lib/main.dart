@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,7 +5,6 @@ import 'package:kembang_belor_apps/config/router/route.dart';
 import 'package:kembang_belor_apps/config/theme/theme.dart';
 import 'package:kembang_belor_apps/core/constant/constant.dart';
 import 'package:kembang_belor_apps/core/resources/observer/observer.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/pages/login.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/register/bloc/register_bloc.dart';
@@ -79,7 +76,7 @@ class MyApp extends StatelessWidget {
             }
           },
           builder: (BuildContext context, AuthStates state) {
-            return Placeholder();
+            return const Placeholder();
           },
         ),
         onGenerateRoute: AppRoute.onGenerateRoute,

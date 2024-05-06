@@ -18,17 +18,3 @@ final class CheckPayment extends CheckPaymentEvent {
     this.uuid,
   );
 }
-
-final class InsertPayment extends CheckPaymentEvent {
-  final String id;
-  final TransactionResult result;
-  final User uuid;
-  final PaymentTourism data;
-
-  const InsertPayment({
-    required this.uuid,
-    required this.id,
-    required this.result,
-    required this.data,
-  });
-}
