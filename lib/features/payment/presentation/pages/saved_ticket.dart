@@ -36,9 +36,53 @@ class SavedTicketPage extends StatelessWidget {
                     child: state.entity!.isNotEmpty
                         ? ListView.builder(
                             itemCount: state.entity!.length,
-                            itemBuilder: (context, index) => TicketItem(
-                                  entity: state.entity![index],
-                                  isFromTicket: false,
+                            itemBuilder: (context, index) => Dismissible(
+                                  confirmDismiss: (direction) async {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      final bool res = await showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Konfirmasi"),
+                                            content: Text(
+                                                "Apakah Anda yakin ingin menghapus data ini?"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text("Tidak"),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text("Ya"),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      return res;
+                                    } else {
+                                      return false;
+                                    }
+                                  },
+                                  onDismissed: (direction) {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      context.read<LocalTicketBloc>().add(
+                                          RemoveTicket(state.entity![index]));
+                                    }
+                                  },
+                                  key: Key(state.entity![index].id),
+                                  child: TicketItem(
+                                    entity: state.entity![index],
+                                    isFromTicket: false,
+                                  ),
                                 ))
                         : Center(
                             child: Text('Data Tidak Ada'),
