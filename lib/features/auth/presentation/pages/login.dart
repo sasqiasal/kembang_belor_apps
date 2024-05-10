@@ -1,13 +1,8 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
-import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:svg_flutter/svg.dart';
 
 class LoginPage extends StatefulWidget {

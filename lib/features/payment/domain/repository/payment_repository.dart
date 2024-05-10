@@ -20,4 +20,10 @@ abstract class PaymentRepository {
       {required String uuid});
 
   Future<DataState<List<TicketEntity>>> getMyTicket({required String uuid});
+
+  Future<List<TicketEntity>> getSavedTickets();
+
+  Future<void> saveTicket(TicketEntity ticket);
+
+  Future<void> removeTicket(TicketEntity ticket);
 }

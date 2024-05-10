@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/ticket/bloc/ticket_bloc.dart';
@@ -18,14 +19,28 @@ class MyTicketPage extends StatelessWidget {
                 'assets/images/bernahdevalei.jpg',
                 fit: BoxFit.cover,
               ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )),
+                  IconButton(
+                    icon: Icon(
+                      Icons.save,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/saved_ticket');
+                    },
+                  )
+                ],
+              ),
             ]),
             BlocBuilder<AuthBloc, AuthStates>(builder: (context, authStates) {
               if (authStates is AuthUserAuthenticated) {
@@ -63,28 +78,73 @@ class MyTicketPage extends StatelessWidget {
                             );
                           }
 
-                          if (state.status == Status.loaded) {
+                          if (state.status == Status.failure) {
                             return Expanded(
                               child: RefreshIndicator(
                                 onRefresh: () async {
                                   context.read<TicketBloc>().add(
                                       MyTicketFetch(uuid: authStates.user.id));
                                 },
-                                child: CustomScrollView(
-                                  shrinkWrap: true,
+                                child: const CustomScrollView(
                                   slivers: [
                                     SliverFillRemaining(
-                                        child: ListView.builder(
-                                            itemCount: state.data.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return TicketItem(
-                                                  entity: state.data[index]);
-                                            }))
+                                      child: Center(
+                                        child: Text('Ada Kesalahan'),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             );
+                          }
+
+                          if (state.status == Status.loaded) {
+                            return state.data.isNotEmpty
+                                ? Expanded(
+                                    child: RefreshIndicator(
+                                      onRefresh: () async {
+                                        context.read<TicketBloc>().add(
+                                            MyTicketFetch(
+                                                uuid: authStates.user.id));
+                                      },
+                                      child: CustomScrollView(
+                                        shrinkWrap: true,
+                                        slivers: [
+                                          SliverFillRemaining(
+                                              child: ListView.builder(
+                                                  itemCount: state.data.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return TicketItem(
+                                                      entity: state.data[index],
+                                                      isFromTicket: true,
+                                                    );
+                                                  }))
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: RefreshIndicator(
+                                      onRefresh: () async {
+                                        context.read<TicketBloc>().add(
+                                            MyTicketFetch(
+                                                uuid: authStates.user.id));
+                                      },
+                                      child: CustomScrollView(
+                                        shrinkWrap: true,
+                                        slivers: [
+                                          SliverFillRemaining(
+                                              child: Expanded(
+                                            child: Center(
+                                              child: Text('Data Tidak Ada'),
+                                            ),
+                                          ))
+                                        ],
+                                      ),
+                                    ),
+                                  );
                           }
 
                           return SizedBox.shrink();

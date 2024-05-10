@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
-import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
@@ -41,15 +39,18 @@ class _PaymentPageState extends State<PaymentPage> {
         merchantBaseUrl: dotenv.env['BASEURL'] ?? "",
       ),
     );
+
     _midtrans?.setUIKitCustomSetting(
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      context.read<CheckPaymentBloc>().add(CheckPayment(
-            result,
-            widget.selectedTourismPayment,
-            user,
-          ));
+      if (result.transactionStatus == TransactionResultStatus.settlement) {
+        context.read<CheckPaymentBloc>().add(CheckPayment(
+              result,
+              widget.selectedTourismPayment,
+              user,
+            ));
+      }
     });
   }
 
@@ -100,6 +101,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           CachedNetworkImage(
                             imageUrl:
                                 widget.selectedTourismPayment.entity.imageUrl!,
+                            cacheKey: '/tourism',
                             imageBuilder: (context, imageProvider) => Container(
                               height: 100,
                               width: 100,

@@ -169,7 +169,9 @@ class _EventPageState extends State<EventPage>
           child: FloatingActionButton.extended(
             label: const Text('Riwayat Event Anda'),
             icon: const Icon(Icons.history),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/history_collab');
+            },
           ),
         ),
       ),

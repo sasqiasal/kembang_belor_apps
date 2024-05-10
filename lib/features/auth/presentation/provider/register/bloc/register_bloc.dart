@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 import 'package:kembang_belor_apps/features/auth/domain/entity/email.dart';
 import 'package:kembang_belor_apps/features/auth/domain/entity/name.dart';
 import 'package:kembang_belor_apps/features/auth/domain/entity/password.dart';

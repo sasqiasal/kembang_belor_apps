@@ -36,7 +36,7 @@ class PaymentRemoteDataSource {
     final dateTimeInserted = DateFormat('ddMMyyyy').format(date);
     try {
       final data = await supabase
-          .from('ticket')
+          .from('tickets')
           .select('id')
           .eq('added_at::date', dateNow)
           .order('id');
@@ -61,7 +61,7 @@ class PaymentRemoteDataSource {
       required DateTime date,
       required int tourism,
       required int qty}) async {
-    await supabase.from('ticket').insert({
+    await supabase.from('tickets').insert({
       'id': id,
       'user_id': uuid.id,
       'checkin_at': date.toIso8601String(),

@@ -21,6 +21,7 @@ class CheckPaymentBloc extends Bloc<CheckPaymentEvent, CheckPaymentState> {
     CheckPayment event,
     Emitter<CheckPaymentState> emit,
   ) async {
+    emit(CheckPaymentInitial());
     if (event._result.transactionStatus == TransactionResultStatus.settlement) {
       String orderID = await _paymentRepository.getUID();
       await _paymentRepository.insertData(

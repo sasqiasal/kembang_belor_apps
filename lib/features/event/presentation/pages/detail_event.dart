@@ -11,10 +11,6 @@ class DetailEventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: ExpandableFab(
-          distance: 100,
-          children: createTexttextfields(entity.event_needed),
-        ),
         appBar: AppBar(
           title: Text(entity.title),
         ),

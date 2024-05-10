@@ -51,6 +51,9 @@ dependencies:
   svg_flutter: ^0.0.1
   google_sign_in: ^6.2.1
   injectable: ^2.4.1
+  qr_flutter: ^4.1.0
+  floor: ^1.4.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +65,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.1
+  floor_generator: ^1.4.2
+  build_runner: ^2.4.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

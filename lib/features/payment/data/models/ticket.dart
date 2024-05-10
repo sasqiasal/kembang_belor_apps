@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:floor/floor.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/ticket.dart';
 
+@Entity(tableName: 'ticket', primaryKeys: ['id'])
 class TicketModel extends TicketEntity {
   TicketModel(
       {required super.id,
@@ -61,6 +63,19 @@ class TicketModel extends TicketEntity {
         qty: map['qty'] as int,
         totalprice: map['totalprice'] as int,
         imageUrl: map['imageUrl'] as String);
+  }
+
+  factory TicketModel.fromEntity(TicketEntity entity) {
+    return TicketModel(
+        id: entity.id,
+        checkin_at: entity.checkin_at,
+        user_id: entity.user_id,
+        added_at: entity.added_at,
+        is_checkin: entity.is_checkin,
+        tourism: entity.tourism,
+        qty: entity.qty,
+        totalprice: entity.totalprice,
+        imageUrl: entity.imageUrl);
   }
 
   String toJson() => json.encode(toMap());

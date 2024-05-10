@@ -17,10 +17,11 @@ class EventCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CachedNetworkImage(
                 imageUrl: entity.poster_url,
+                cacheKey: '/poster',
                 imageBuilder: (context, imageProvider) => Container(
                   height: 100,
                   width: 50,
