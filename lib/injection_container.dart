@@ -43,6 +43,7 @@ Future<void> initializeDependencies() async {
       GetRecentlyFaciliesUseCase(sl()));
   final database =
       await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+      
   sl.registerSingleton<AppDatabase>(database);
   sl.registerSingleton<PaymentRemoteDataSource>(PaymentRemoteDataSource());
   sl.registerSingleton<PaymentRepository>(PaymentRepositoryImpl(sl(), sl()));

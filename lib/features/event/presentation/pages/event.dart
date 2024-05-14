@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
@@ -97,7 +95,7 @@ class _EventPageState extends State<EventPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Vendor Collab Kembang Belor',
                                 style: TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold),
@@ -128,11 +126,11 @@ class _EventPageState extends State<EventPage>
                                               ),
                                       );
                                     }
-                                    return SizedBox.shrink();
+                                    return const SizedBox.shrink();
                                   },
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 'Event Kembang Belor',
                                 style: TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold),

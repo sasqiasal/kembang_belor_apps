@@ -1,6 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
-import 'package:kembang_belor_apps/core/mixin/entity_convertible.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/vendor_collab.dart';
 
 class VendorCollabModel extends VendorCollabEntity {

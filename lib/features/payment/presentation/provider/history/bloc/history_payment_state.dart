@@ -7,13 +7,13 @@ class HistoryPaymentState extends Equatable {
   final List<TicketEntity> data;
   const HistoryPaymentState({required this.status, required this.data});
 
-  factory HistoryPaymentState.initial() => HistoryPaymentState(
+  factory HistoryPaymentState.initial() => const HistoryPaymentState(
         status: Status.initial,
         data: [],
       );
 
   factory HistoryPaymentState.loading() =>
-      HistoryPaymentState(data: [], status: Status.initial);
+      const HistoryPaymentState(data: [], status: Status.initial);
   HistoryPaymentState copyWith({
     required Status? status,
     required List<TicketEntity>? data,

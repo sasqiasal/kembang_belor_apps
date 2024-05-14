@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/event.dart';
 
@@ -23,6 +22,29 @@ class VendorCard extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 imageUrl: entity.poster_url,
+                errorWidget: (context, url, error) => Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 14),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: const Icon(Icons.error),
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Container(
+                        height: 150,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadiusDirectional.circular(10),
+                        ),
+                        child: const CupertinoActivityIndicator()),
                 imageBuilder: (context, imageProvider) => Container(
                   height: 150,
                   width: 100,
@@ -30,12 +52,11 @@ class VendorCard extends StatelessWidget {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadiusDirectional.circular(10),
                       image: DecorationImage(
-                        image: imageProvider,
-                      )),
+                          image: imageProvider, fit: BoxFit.cover)),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 8, left: 12),
+                padding: const EdgeInsets.only(top: 8, left: 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,11 +76,11 @@ class VendorCard extends StatelessWidget {
                     Text.rich(TextSpan(
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.primary),
-                        children: [TextSpan(text: 'Lihat Selengkapnya')]))
+                        children: const [TextSpan(text: 'Lihat Selengkapnya')]))
                   ],
                 ),
               ),
-              Icon((Icons.navigate_next))
+              const Icon((Icons.navigate_next))
             ],
           ),
         ),

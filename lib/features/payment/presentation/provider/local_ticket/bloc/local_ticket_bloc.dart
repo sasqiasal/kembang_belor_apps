@@ -22,6 +22,7 @@ class LocalTicketBloc extends Bloc<LocalTicketEvent, LocalTicketState> {
 
   void onGetSavedTicket(
       GetSavedTicket event, Emitter<LocalTicketState> emit) async {
+    emit(LocalTicketInitial());
     try {
       final ticket = await _getSavedTicketsUseCase();
       emit(LocalTicketDone(ticket));
@@ -32,6 +33,7 @@ class LocalTicketBloc extends Bloc<LocalTicketEvent, LocalTicketState> {
 
   void onRemoveTicket(
       RemoveTicket remove, Emitter<LocalTicketState> emit) async {
+    emit(LocalTicketInitial());
     try {
       await _removeTicketUseCase(params: remove.entity);
       final ticket = await _getSavedTicketsUseCase();
@@ -42,6 +44,7 @@ class LocalTicketBloc extends Bloc<LocalTicketEvent, LocalTicketState> {
   }
 
   void onSaveArticle(InsertTicket save, Emitter<LocalTicketState> emit) async {
+    emit(LocalTicketInitial());
     try {
       await _insertTicketUseCase(params: save.entity);
       final ticket = await _getSavedTicketsUseCase();

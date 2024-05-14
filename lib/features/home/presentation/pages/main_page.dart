@@ -49,15 +49,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Edit Identitas'),
-              onTap: () {},
-            ),
-            ListTile(
               leading: const Icon(
                 Icons.local_activity,
               ),
-              title: Text('Ticket Anda'),
+              title: const Text('Ticket Anda'),
               onTap: () {
                 Navigator.of(context).pushNamed('/tiket_saya');
               },

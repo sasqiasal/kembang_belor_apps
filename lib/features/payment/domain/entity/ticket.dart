@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:equatable/equatable.dart';
-import 'package:floor/floor.dart';
 
 class TicketEntity extends Equatable {
   final String id;

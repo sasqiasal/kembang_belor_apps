@@ -1,6 +1,5 @@
 part of 'tourism_bloc.dart';
 
-@immutable
 sealed class TourismState extends Equatable {
   final List<TourismEntity>? model;
   final String? error;

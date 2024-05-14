@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/ticket.dart';
 
@@ -8,7 +8,8 @@ class TicketItem extends StatelessWidget {
   final TicketEntity entity;
   final bool isFromTicket;
 
-  TicketItem({
+  const TicketItem({
+    super.key,
     required this.entity,
     required this.isFromTicket,
   });
@@ -19,7 +20,7 @@ class TicketItem extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed('/detail_ticket',
           arguments: {'entity': entity, 'isFromTicket': isFromTicket}),
       child: Card(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -28,6 +29,35 @@ class TicketItem extends StatelessWidget {
               CachedNetworkImage(
                 imageUrl: entity.imageUrl,
                 cacheKey: '/tourism',
+                errorWidget: (context, url, error) => Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 14),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: const Icon(Icons.error),
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 14),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: const CupertinoActivityIndicator(),
+                    ),
+                  ),
+                ),
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -39,23 +69,23 @@ class TicketItem extends StatelessWidget {
                   height: 100,
                 ),
               ),
-              SizedBox(width: 16.0),
+              const SizedBox(width: 16.0),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       entity.tourism,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     RichText(
                       text: TextSpan(
                         children: <TextSpan>[
-                          TextSpan(
+                          const TextSpan(
                               text: 'Berlaku hingga: \n',
                               style: TextStyle(
                                   fontSize: 16.0,
@@ -72,7 +102,7 @@ class TicketItem extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                   ],
                 ),
               ),

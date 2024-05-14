@@ -1,7 +1,6 @@
 import 'package:kembang_belor_apps/features/event/data/model/event.dart';
 import 'package:kembang_belor_apps/features/event/data/model/vendor_collab.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/vendor_collab.dart';
-import 'package:kembang_belor_apps/features/payment/data/models/ticket.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EventDataSource {

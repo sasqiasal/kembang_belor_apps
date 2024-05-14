@@ -78,24 +78,24 @@ class DetailHistoryVendorCollabPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10))),
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     entity.title!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
-                  Text(
+                  const SizedBox(height: 8.0),
+                  const Text(
                     'Vendor sebagai:',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -104,15 +104,15 @@ class DetailHistoryVendorCollabPage extends StatelessWidget {
                   ),
                   Text(
                     entity.needed_at,
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     DateFormat('dd MMMM yyyy').format(entity.tanggal_daftar!),
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 8.0),
-                  Text(
+                  const SizedBox(height: 8.0),
+                  const Text(
                     'Status:',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -121,7 +121,7 @@ class DetailHistoryVendorCollabPage extends StatelessWidget {
                   ),
                   Text(
                     entity.is_accept! ? 'Tersetujui' : 'Tidak/Belum Disetujui',
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                   ),
                 ],
               ),
@@ -129,7 +129,7 @@ class DetailHistoryVendorCollabPage extends StatelessWidget {
           ),
           IconButton(
               onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.white,
               )),

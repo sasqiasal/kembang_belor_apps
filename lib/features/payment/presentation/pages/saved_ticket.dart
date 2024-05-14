@@ -11,7 +11,7 @@ class SavedTicketPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          LocalTicketBloc(sl(), sl(), sl())..add(GetSavedTicket()),
+          LocalTicketBloc(sl(), sl(), sl())..add(const GetSavedTicket()),
       child: Scaffold(
         appBar: AppBar(),
         body: SizedBox(
@@ -25,7 +25,7 @@ class SavedTicketPage extends StatelessWidget {
               }
 
               if (state is LocalTicketFailure) {
-                return Center(
+                return const Center(
                   child: Text('Ada Kesalahan'),
                 );
               }
@@ -44,19 +44,19 @@ class SavedTicketPage extends StatelessWidget {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: Text("Konfirmasi"),
-                                            content: Text(
+                                            title: const Text("Konfirmasi"),
+                                            content: const Text(
                                                 "Apakah Anda yakin ingin menghapus data ini?"),
                                             actions: <Widget>[
                                               TextButton(
-                                                child: Text("Tidak"),
+                                                child: const Text("Tidak"),
                                                 onPressed: () {
                                                   Navigator.of(context)
                                                       .pop(false);
                                                 },
                                               ),
                                               TextButton(
-                                                child: Text("Ya"),
+                                                child: const Text("Ya"),
                                                 onPressed: () {
                                                   Navigator.of(context)
                                                       .pop(true);
@@ -84,7 +84,7 @@ class SavedTicketPage extends StatelessWidget {
                                     isFromTicket: false,
                                   ),
                                 ))
-                        : Center(
+                        : const Center(
                             child: Text('Data Tidak Ada'),
                           ));
               }

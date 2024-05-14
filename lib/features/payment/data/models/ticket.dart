@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:floor/floor.dart';
@@ -5,7 +7,7 @@ import 'package:kembang_belor_apps/features/payment/domain/entity/ticket.dart';
 
 @Entity(tableName: 'ticket', primaryKeys: ['id'])
 class TicketModel extends TicketEntity {
-  TicketModel(
+  const TicketModel(
       {required super.id,
       required super.checkin_at,
       required super.user_id,

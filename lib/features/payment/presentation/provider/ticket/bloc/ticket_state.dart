@@ -7,13 +7,13 @@ class TicketState extends Equatable {
   final List<TicketEntity> data;
   const TicketState({required this.status, required this.data});
 
-  factory TicketState.initial() => TicketState(
+  factory TicketState.initial() => const TicketState(
         status: Status.initial,
         data: [],
       );
 
   factory TicketState.loading() =>
-      TicketState(data: [], status: Status.initial);
+      const TicketState(data: [], status: Status.initial);
   TicketState copyWith({
     required Status? status,
     required List<TicketEntity>? data,

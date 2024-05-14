@@ -42,15 +42,10 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
   @override
   Future<AuthResponse> signInWithGoogle() async {
-    /// TODO: update the Web client ID with your own.
-    ///
-    /// Web Client ID that you registered with Google Cloud.
+  
     const webClientId =
         '889220975978-vq73gn5th55jqufbq275p52j2d00gess.apps.googleusercontent.com';
 
-    /// TODO: update the iOS client ID with your own.
-    ///
-    /// iOS Client ID that you registered with Google Cloud.
     const iosClientId =
         '889220975978-1mj68l18nvl6en96nkk3einkmkg7n8fp.apps.googleusercontent.com';
 

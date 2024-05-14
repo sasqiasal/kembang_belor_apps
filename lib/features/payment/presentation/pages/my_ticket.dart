@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/ticket/bloc/ticket_bloc.dart';
@@ -31,7 +30,7 @@ class MyTicketPage extends StatelessWidget {
                         color: Colors.white,
                       )),
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.save,
                       color: Colors.white,
                     ),
@@ -45,16 +44,16 @@ class MyTicketPage extends StatelessWidget {
             BlocBuilder<AuthBloc, AuthStates>(builder: (context, authStates) {
               if (authStates is AuthUserAuthenticated) {
                 return Container(
-                  margin: EdgeInsets.only(top: 140),
+                  margin: const EdgeInsets.only(top: 140),
                   height: double.infinity,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20))),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       const Text(
@@ -62,7 +61,7 @@ class MyTicketPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       BlocBuilder<TicketBloc, TicketState>(
@@ -79,21 +78,19 @@ class MyTicketPage extends StatelessWidget {
                           }
 
                           if (state.status == Status.failure) {
-                            return Expanded(
-                              child: RefreshIndicator(
-                                onRefresh: () async {
-                                  context.read<TicketBloc>().add(
-                                      MyTicketFetch(uuid: authStates.user.id));
-                                },
-                                child: const CustomScrollView(
-                                  slivers: [
-                                    SliverFillRemaining(
-                                      child: Center(
-                                        child: Text('Ada Kesalahan'),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                            return RefreshIndicator(
+                              onRefresh: () async {
+                                context.read<TicketBloc>().add(
+                                    MyTicketFetch(uuid: authStates.user.id));
+                              },
+                              child: const CustomScrollView(
+                                slivers: [
+                                  SliverFillRemaining(
+                                    child: Center(
+                                      child: Text('Ada Kesalahan'),
+                                    ),
+                                  )
+                                ],
                               ),
                             );
                           }
@@ -125,21 +122,19 @@ class MyTicketPage extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : Expanded(
+                                : Flexible(
                                     child: RefreshIndicator(
                                       onRefresh: () async {
                                         context.read<TicketBloc>().add(
                                             MyTicketFetch(
                                                 uuid: authStates.user.id));
                                       },
-                                      child: CustomScrollView(
+                                      child: const CustomScrollView(
                                         shrinkWrap: true,
                                         slivers: [
                                           SliverFillRemaining(
-                                              child: Expanded(
-                                            child: Center(
-                                              child: Text('Data Tidak Ada'),
-                                            ),
+                                              child: Center(
+                                            child: Text('Data Tidak Ada'),
                                           ))
                                         ],
                                       ),
@@ -147,14 +142,14 @@ class MyTicketPage extends StatelessWidget {
                                   );
                           }
 
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         },
                       ),
                     ],
                   ),
                 );
               }
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             })
           ],
         ),

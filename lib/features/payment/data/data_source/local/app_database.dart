@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:floor/floor.dart';
+// ignore: depend_on_referenced_packages
+import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'package:kembang_belor_apps/features/payment/data/data_source/local/DAO/ticket_dao.dart';
 import 'package:kembang_belor_apps/features/payment/data/models/ticket.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'app_database.g.dart';
 

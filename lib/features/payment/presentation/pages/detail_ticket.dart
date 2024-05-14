@@ -18,12 +18,12 @@ class DetailTicketPage extends StatelessWidget {
       body: BlocListener<LocalTicketBloc, LocalTicketState>(
         listener: (context, state) {
           if (state is LocalTicketDone) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Berhasil')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Berhasil Menyimpan Tiket')));
           }
           if (state is LocalTicketFailure) {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Gagal')));
+                .showSnackBar(const SnackBar(content: Text('Tiket Sudah Ada')));
           }
         },
         child: Stack(
@@ -60,12 +60,12 @@ class DetailTicketPage extends StatelessWidget {
                             data: entity.id,
                             size: 200,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
                             'Berlaku pada tanggal : ${_formatDate(entity.checkin_at)}',
-                            style: TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 20,
@@ -100,13 +100,13 @@ class DetailTicketPage extends StatelessWidget {
                       ),
                     ),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   isFromTicket
                       ? ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size.fromHeight(
+                            minimumSize: const Size.fromHeight(
                                 40), // fromHeight use double.infinity as width and 40 is the height
                           ),
                           onPressed: () {
@@ -114,9 +114,9 @@ class DetailTicketPage extends StatelessWidget {
                                 .read<LocalTicketBloc>()
                                 .add(InsertTicket(entity));
                           },
-                          child: Text('Simpan Ticket'),
+                          child: const Text('Simpan Ticket'),
                         )
-                      : SizedBox.shrink()
+                      : const SizedBox.shrink()
                 ],
               ),
             )

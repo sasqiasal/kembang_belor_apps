@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:equatable/equatable.dart';
 
 class EventEntity extends Equatable {
@@ -21,6 +23,13 @@ class EventEntity extends Equatable {
       required this.is_open});
 
   @override
-  List<Object?> get props =>
-      [id, title, description, event_needed, event_started, nama_wisata, is_open];
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        event_needed,
+        event_started,
+        nama_wisata,
+        is_open
+      ];
 }

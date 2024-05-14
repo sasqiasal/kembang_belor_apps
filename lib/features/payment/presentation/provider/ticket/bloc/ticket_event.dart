@@ -10,5 +10,5 @@ sealed class TicketEvent extends Equatable {
 final class MyTicketFetch extends TicketEvent {
   final String uuid;
 
-  MyTicketFetch({required this.uuid});
+  const MyTicketFetch({required this.uuid});
 }

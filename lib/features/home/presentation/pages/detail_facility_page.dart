@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/features/home/domain/entities/recently_update.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
@@ -48,13 +47,13 @@ class DetailFacility extends StatelessWidget {
                   children: [
                     Text(
                       entity.facilityName!,
-                      style:
-                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       entity.parentTourism!,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         overflow: TextOverflow.clip,
                       ),
                     )

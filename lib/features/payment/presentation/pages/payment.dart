@@ -118,14 +118,14 @@ class _PaymentPageState extends State<PaymentPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Tiket Masuk',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 widget.selectedTourismPayment.entity.name!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Text(DateFormat('EEEE')
@@ -146,7 +146,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         .headlineMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(

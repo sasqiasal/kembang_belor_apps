@@ -10,5 +10,5 @@ sealed class HistoryPaymentEvent extends Equatable {
 final class HistoryPaymentFetch extends HistoryPaymentEvent {
   final String uuid;
 
-  HistoryPaymentFetch({required this.uuid});
+  const HistoryPaymentFetch({required this.uuid});
 }

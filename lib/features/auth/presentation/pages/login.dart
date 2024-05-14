@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                       state.isSubmitting()
                                           ? 'Submitting'
                                           : 'Login',
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ));
                               },
                             ),
@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                     RichText(
                         text: TextSpan(
                             text: 'Belum punya akun? ',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleSmall,
                             children: [
                           TextSpan(
                               text: 'Registrasi Sekarang',

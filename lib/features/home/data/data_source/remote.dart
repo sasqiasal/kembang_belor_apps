@@ -23,8 +23,8 @@ class RemoteDataSource {
       final response = await supabase
           .from('facility_tourism_view')
           .select()
-          .order('updated_at', ascending: false)
-          .limit(4);
+          .order('updated_at', ascending: false);
+
       log(response.toString());
 
       List<RecentlyFacilityModel> recentlyUpdatedList =

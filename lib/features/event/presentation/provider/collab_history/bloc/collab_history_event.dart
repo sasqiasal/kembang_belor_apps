@@ -10,5 +10,5 @@ sealed class CollabHistoryEvent extends Equatable {
 final class FetchCollabHistory extends CollabHistoryEvent {
   final String uuid;
 
-  FetchCollabHistory(this.uuid);
+  const FetchCollabHistory(this.uuid);
 }

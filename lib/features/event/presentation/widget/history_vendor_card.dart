@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/vendor_collab.dart';
 
 class HistoryVendorCard extends StatelessWidget {
@@ -15,15 +15,44 @@ class HistoryVendorCard extends StatelessWidget {
             .pushNamed('/detail_history_collab', arguments: entity);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CachedNetworkImage(
                 imageUrl: entity.poster_url!,
                 cacheKey: '/poster',
+                errorWidget: (context, url, error) => Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 14),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: const Icon(Icons.error),
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 14),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: const CupertinoActivityIndicator(),
+                    ),
+                  ),
+                ),
                 imageBuilder: (context, imageProvider) => Container(
                   height: 70,
                   width: 70,
@@ -41,14 +70,15 @@ class HistoryVendorCard extends StatelessWidget {
                 children: [
                   Text(
                     entity.title!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text('Vendor: ${entity.needed_at}'),
                   Text(
                       'Status : ${entity.is_accept! ? 'Tersetujui' : 'Tidak/Belum Disetujui'}')
                 ],
               ),
-              Icon(Icons.navigate_next)
+              const Icon(Icons.navigate_next)
             ],
           ),
         ),

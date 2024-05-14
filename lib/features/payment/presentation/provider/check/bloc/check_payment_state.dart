@@ -14,7 +14,7 @@ final class CheckPaymentSucces extends CheckPaymentState {
   final TransactionResult result;
   final PaymentTourism data;
 
-  CheckPaymentSucces(
+  const CheckPaymentSucces(
       {required this.id, required this.result, required this.data});
 }
 

@@ -11,7 +11,7 @@ class PaymentHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Riwayat Pembayaran'),
+        title: const Text('Riwayat Pembayaran'),
         centerTitle: true,
       ),
       body: BlocBuilder<AuthBloc, AuthStates>(builder: (context, authState) {
@@ -54,23 +54,23 @@ class PaymentHistoryPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text('Tiket dari ${state.data[index].tourism}'),
-                              Text(
-                                  '${DateFormat('dd MMMM yyyy').format(state.data[index].checkin_at)}'),
+                              Text(DateFormat('dd MMMM yyyy')
+                                  .format(state.data[index].checkin_at)),
                             ],
                           ),
                           Text('Rp ${state.data[index].totalprice}')
                         ],
                       ),
                     ),
-                    separatorBuilder: (context, index) => Divider(),
+                    separatorBuilder: (context, index) => const Divider(),
                   ),
                 );
               }
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             },
           );
         }
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       }),
     );
   }
