@@ -22,34 +22,14 @@ class EventCard extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 imageUrl: entity.poster_url,
-                errorWidget: (context, url, error) => Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 14),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: double.maxFinite,
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.08),
-                      ),
-                      child: const Icon(Icons.error),
-                    ),
-                  ),
-                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 14),
-                  child: Container(
-                    height: 100,
-                    width: 75,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadiusDirectional.circular(10),
-                    ),
-                    child: const CupertinoActivityIndicator(),
-                  ),
+                    Center(
+                  child: SizedBox(
+                      height: 100,
+                      width: 75,
+                      child: const CupertinoActivityIndicator()),
                 ),
-                
                 imageBuilder: (context, imageProvider) => Container(
                   height: 100,
                   width: 75,

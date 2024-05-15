@@ -42,7 +42,6 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
   @override
   Future<AuthResponse> signInWithGoogle() async {
-  
     const webClientId =
         '889220975978-vq73gn5th55jqufbq275p52j2d00gess.apps.googleusercontent.com';
 
