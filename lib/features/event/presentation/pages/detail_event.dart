@@ -88,18 +88,18 @@ class DetailEventPage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.date_range),
-                              Text(
-                                  '${DateFormat('dd MMMM yyyy').format(entity.event_started)}'),
+                              const Icon(Icons.date_range),
+                              Text(DateFormat('dd MMMM yyyy')
+                                  .format(entity.event_started)),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.home),
+                              const Icon(Icons.home),
                               Text(entity.nama_wisata)
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(entity.description)

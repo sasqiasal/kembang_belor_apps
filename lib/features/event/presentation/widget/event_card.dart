@@ -24,11 +24,11 @@ class EventCard extends StatelessWidget {
                 imageUrl: entity.poster_url,
                 errorWidget: (context, url, error) => const Icon(Icons.error),
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Center(
+                    const Center(
                   child: SizedBox(
                       height: 100,
                       width: 75,
-                      child: const CupertinoActivityIndicator()),
+                      child: CupertinoActivityIndicator()),
                 ),
                 imageBuilder: (context, imageProvider) => Container(
                   height: 100,
