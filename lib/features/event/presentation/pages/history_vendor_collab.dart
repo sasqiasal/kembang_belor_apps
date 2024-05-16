@@ -84,11 +84,22 @@ class HistoryVendorCollabPage extends StatelessWidget {
                     if (state.status == Status.loaded) {
                       return Expanded(
                         child: RefreshIndicator(
-                          child: ListView.builder(
-                            itemCount: state.data.length,
-                            itemBuilder: (context, index) =>
-                                HistoryVendorCard(entity: state.data[index]),
-                          ),
+                          child: state.data.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: state.data.length,
+                                  itemBuilder: (context, index) =>
+                                      HistoryVendorCard(
+                                          entity: state.data[index]),
+                                )
+                              : const CustomScrollView(
+                                  slivers: [
+                                    SliverFillRemaining(
+                                      child: Center(
+                                        child: Text('Data Tidak Ada'),
+                                      ),
+                                    )
+                                  ],
+                                ),
                           onRefresh: () async {
                             context
                                 .read<CollabHistoryBloc>()

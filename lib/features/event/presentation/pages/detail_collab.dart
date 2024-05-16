@@ -34,6 +34,12 @@ class _DetailCollabPageState extends State<DetailCollabPage> {
                 ),
               );
             }
+
+            if (state is InsertCollabFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text('Anda Sudah Pernah Mendaftar')));
+            }
           },
           child: BlocBuilder<AuthBloc, AuthStates>(
             builder: (context, authState) {

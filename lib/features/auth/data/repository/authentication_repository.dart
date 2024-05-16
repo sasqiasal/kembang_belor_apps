@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthenticationRepository implements IAuthenticationRepository {
   final GoTrueClient _supabaseAuth;
   static const String _redirectUrl =
-      'https://vfwdwdelsjrbuowuhsig.supabase.co/auth/v1/callback';
+      'https://ktcdelnorjxtdrtvogra.supabase.co/auth/v1/callback';
 
   AuthenticationRepository(this._supabaseAuth);
 

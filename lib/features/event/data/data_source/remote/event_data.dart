@@ -33,7 +33,8 @@ class EventDataSource {
 
   Future<List<VendorCollabModel>> getMyVendorCollab(String uuid) async {
     try {
-      final data = await supabase.from('view_vendors').select();
+      final data =
+          await supabase.from('view_vendors').select().eq('user_id', uuid);
       List<VendorCollabModel> listCollab =
           data.map((e) => VendorCollabModel.fromMap(e)).toList();
       return listCollab;
