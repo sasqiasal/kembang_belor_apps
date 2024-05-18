@@ -73,4 +73,9 @@ class AuthenticationRepository implements IAuthenticationRepository {
       accessToken: accessToken,
     );
   }
+
+  @override
+  Future<void> sendResetPassword({required String email}) async {
+    await _supabaseAuth.resetPasswordForEmail(email);
+  }
 }

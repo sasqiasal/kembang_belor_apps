@@ -14,4 +14,5 @@ abstract class IAuthenticationRepository {
   Future<void> signOut();
   Stream<User?> getCurrentUser();
   User? getSignedInUser();
+  Future<void> sendResetPassword({required String email});
 }

@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginButtonPressed>(_onLoginButtonPressed);
     on<GoogleButtonPressed>(_onGoogleSignIn);
+    on<ResetPasswordPressed>(_onEmailResetSend);
   }
 
   Future<void> _onLoginButtonPressed(
@@ -63,7 +64,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     try {
       await _authenticationRepository.signInWithGoogle();
-      
+
+      emit(state.copyWith(formSubmissionStatus: FormSubmissionStatus.success));
+    } catch (e) {
+      log(e.toString());
+      emit(state.copyWith(formSubmissionStatus: FormSubmissionStatus.failure));
+    }
+  }
+
+  Future<void> _onEmailResetSend(
+      ResetPasswordPressed event, Emitter<LoginState> emit) async {
+    try {
+      await _authenticationRepository.sendResetPassword(email: event.email);
+
       emit(state.copyWith(formSubmissionStatus: FormSubmissionStatus.success));
     } catch (e) {
       log(e.toString());

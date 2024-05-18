@@ -180,6 +180,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 ));
                           },
                           style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              foregroundColor: Colors.white,
                               textStyle:
                                   Theme.of(context).textTheme.headlineMedium),
                           child: Text(state is PaymentLoading
