@@ -1,13 +1,9 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/login/bloc/login_bloc.dart';
-import 'package:kembang_belor_apps/injection_container.dart';
 import 'package:svg_flutter/svg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -140,7 +136,49 @@ class _LoginPageState extends State<LoginPage> {
                           Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        final emailController =
+                                            TextEditingController();
+                                        return AlertDialog(
+                                          title: const Text('Masukkan Email'),
+                                          content: TextField(
+                                            controller: emailController,
+                                            decoration: const InputDecoration(
+                                              hintText: 'Masukkan email Anda',
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text('Batal'),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                // Lakukan sesuatu dengan email yang dimasukkan
+                                                String email =
+                                                    emailController.text;
+
+                                                if (kDebugMode) {
+                                                  print('Email: $email');
+                                                }
+
+                                                context.read<LoginBloc>().add(
+                                                    ResetPasswordPressed(
+                                                        email: email));
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
                                   child: const Text('Lupa Password'))),
                           SizedBox(
                             height: 50,
@@ -158,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                                       state.isSubmitting()
                                           ? 'Submitting'
                                           : 'Login',
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ));
                               },
                             ),
@@ -198,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                     RichText(
                         text: TextSpan(
                             text: 'Belum punya akun? ',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleSmall,
                             children: [
                           TextSpan(
                               text: 'Registrasi Sekarang',

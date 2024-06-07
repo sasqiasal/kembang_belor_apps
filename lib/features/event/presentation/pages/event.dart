@@ -1,20 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
 import 'package:kembang_belor_apps/features/event/presentation/widget/event_card.dart';
+import 'package:kembang_belor_apps/features/event/presentation/widget/vendor_card.dart';
 
-class EvenetPage extends StatefulWidget {
-  const EvenetPage({super.key});
+class EventPage extends StatefulWidget {
+  const EventPage({super.key});
 
   @override
-  State<EvenetPage> createState() => _EvenetPageState();
+  State<EventPage> createState() => _EventPageState();
 }
 
-class _EvenetPageState extends State<EvenetPage>
+class _EventPageState extends State<EventPage>
     with AutomaticKeepAliveClientMixin {
   late ScrollController _hideButtonController;
   late bool _isVisible;
@@ -61,21 +60,16 @@ class _EvenetPageState extends State<EvenetPage>
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Event Kembang Belor',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: BlocBuilder<EventBloc, EventState>(
-              builder: (context, state) {
-                if (state is EventLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+          BlocBuilder<EventBloc, EventState>(
+            builder: (context, state) {
+              if (state is EventLoading) {
+                return const Expanded(
+                    child: Center(child: CircularProgressIndicator()));
+              }
 
-                if (state is EventFailure) {
-                  return RefreshIndicator(
+              if (state is EventFailure) {
+                return Expanded(
+                  child: RefreshIndicator(
                       onRefresh: () async {
                         context.read<EventBloc>().add(EventFetch());
                       },
@@ -85,36 +79,107 @@ class _EvenetPageState extends State<EvenetPage>
                             child: Text(state.exception),
                           ),
                         )
-                      ]));
-                }
+                      ])),
+                );
+              }
 
-                if (state is EventSucces) {
-                  return RefreshIndicator(
+              if (state is EventSucces) {
+                return Expanded(
+                  child: RefreshIndicator(
                       onRefresh: () async {
                         context.read<EventBloc>().add(EventFetch());
                         // await Future.delayed(const Duration(seconds: 2));
                       },
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: state.entity.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return state.entity[index].event_needed.isEmpty
-                              ? EventCard(entity: state.entity[index])
-                              : Badge.count(
-                                  count:
-                                      state.entity[index].event_needed.length,
-                                  child: EventCard(
-                                    entity: state.entity[index],
-                                  ),
-                                );
-                        },
-                      ));
-                }
+                      child: CustomScrollView(slivers: [
+                        SliverFillRemaining(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Vendor Collab Kembang Belor',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 200,
+                                child: ListView.builder(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  itemCount: state.entity.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    // if (state.entity[index].is_open) {
+                                    //   return Padding(
+                                    //     padding: const EdgeInsets.only(top: 8),
+                                    //     child: state.entity[index].event_needed
+                                    //             .isEmpty
+                                    //         ? VendorCard(
+                                    //             entity: state.entity[index])
+                                    //         : Badge.count(
+                                    //             count: state.entity[index]
+                                    //                 .event_needed.length,
+                                    //             child: VendorCard(
+                                    //               entity: state.entity[index],
+                                    //             ),
+                                    //           ),
+                                    //   );
+                                    // }
+                                    // return const SizedBox.shrink();
+                                    if (state.entity[index].is_open) {
+                                      final hasNonZeroEventNeeded = state
+                                          .entity[index].event_needed.entries
+                                          .any((entry) => entry.value != 0);
 
-                return Container();
-              },
-            ),
+                                      if (hasNonZeroEventNeeded) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8),
+                                          child: Badge.count(
+                                            count: state.entity[index]
+                                                .event_needed.entries
+                                                .where(
+                                                    (entry) => entry.value != 0)
+                                                .length,
+                                            child: VendorCard(
+                                              entity: state.entity[index],
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              ),
+                              const Text(
+                                'Event Kembang Belor',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: state.entity.length,
+                                  controller: _hideButtonController,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return EventCard(
+                                        entity: state.entity[index]);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ])),
+                );
+              }
+
+              return Container();
+            },
           )
         ]),
       ),
@@ -127,7 +192,9 @@ class _EvenetPageState extends State<EvenetPage>
           child: FloatingActionButton.extended(
             label: const Text('Riwayat Event Anda'),
             icon: const Icon(Icons.history),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/history_collab');
+            },
           ),
         ),
       ),

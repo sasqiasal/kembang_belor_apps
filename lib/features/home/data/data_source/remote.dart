@@ -9,7 +9,7 @@ class RemoteDataSource {
   Future<List<TourismModel>> getTourism() async {
     try {
       final response =
-          await supabase.from('wisata').select().order('id', ascending: true);
+          await supabase.from('wisatas').select().order('id', ascending: true);
       List<TourismModel> tourismModelList =
           response.map((e) => TourismModel.fromMap(e)).toList();
       return tourismModelList;
@@ -20,12 +20,11 @@ class RemoteDataSource {
 
   Future<List<RecentlyFacilityModel>> getRecentlyFacilies() async {
     try {
-      final response = await supabase.from('list_facility_tourism').select('''
-    id,
-    parentTourism:wisata(name),
-    imageUrl,
-    facilityName
-  ''').order('updated_at', ascending: false).limit(4);
+      final response = await supabase
+          .from('facility_tourism_view')
+          .select()
+          .order('updated_at', ascending: false);
+
       log(response.toString());
 
       List<RecentlyFacilityModel> recentlyUpdatedList =

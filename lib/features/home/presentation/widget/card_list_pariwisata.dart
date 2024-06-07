@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kembang_belor_apps/features/home/domain/entities/tourism.dart';
-import 'package:kembang_belor_apps/features/home/presentation/pages/facility_page.dart';
 
 class PariwisataCard extends StatelessWidget {
   final TourismEntity model;

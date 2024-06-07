@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
-import 'package:kembang_belor_apps/features/home/presentation/providers/tourism/bloc/tourism_bloc.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
 import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/bloc/payment_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
 import 'package:midtrans_sdk/midtrans_sdk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -41,13 +39,18 @@ class _PaymentPageState extends State<PaymentPage> {
         merchantBaseUrl: dotenv.env['BASEURL'] ?? "",
       ),
     );
+
     _midtrans?.setUIKitCustomSetting(
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      context
-          .read<CheckPaymentBloc>()
-          .add(CheckPayment(result, widget.selectedTourismPayment, user));
+      if (result.transactionStatus == TransactionResultStatus.settlement) {
+        context.read<CheckPaymentBloc>().add(CheckPayment(
+              result,
+              widget.selectedTourismPayment,
+              user,
+            ));
+      }
     });
   }
 
@@ -98,6 +101,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           CachedNetworkImage(
                             imageUrl:
                                 widget.selectedTourismPayment.entity.imageUrl!,
+                            cacheKey: '/tourism',
                             imageBuilder: (context, imageProvider) => Container(
                               height: 100,
                               width: 100,
@@ -114,14 +118,14 @@ class _PaymentPageState extends State<PaymentPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Tiket Masuk',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 widget.selectedTourismPayment.entity.name!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Text(DateFormat('EEEE')
@@ -142,7 +146,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         .headlineMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
@@ -176,6 +180,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 ));
                           },
                           style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              foregroundColor: Colors.white,
                               textStyle:
                                   Theme.of(context).textTheme.headlineMedium),
                           child: Text(state is PaymentLoading

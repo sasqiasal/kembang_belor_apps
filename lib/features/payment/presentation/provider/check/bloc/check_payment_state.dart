@@ -14,10 +14,12 @@ final class CheckPaymentSucces extends CheckPaymentState {
   final TransactionResult result;
   final PaymentTourism data;
 
-  CheckPaymentSucces(
+  const CheckPaymentSucces(
       {required this.id, required this.result, required this.data});
 }
 
 final class CheckPaymentFailed extends CheckPaymentState {}
 
 final class InsertPaymentSucces extends CheckPaymentState {}
+
+final class InsertPaymentFailure extends CheckPaymentState {}

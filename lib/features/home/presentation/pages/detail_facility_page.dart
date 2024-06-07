@@ -1,15 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kembang_belor_apps/features/home/domain/entities/recently_update.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
 
 class DetailFacility extends StatelessWidget {
-  const DetailFacility({super.key});
+  final RecentlyFacilityEntity entity;
+  const DetailFacility({super.key, required this.entity});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
         PanoramaViewer(
-          child: Image.asset('assets/images/panorama.jpg'),
+          // child: Image.network(
+          //   entity.immersive_picture!,
+          //   loadingBuilder: (BuildContext context, Widget child,
+          //       ImageChunkEvent? loadingProgress) {
+          //     if (loadingProgress == null) return child;
+          //     return Center(
+          //       child: CircularProgressIndicator(
+          //         value: loadingProgress.expectedTotalBytes != null
+          //             ? loadingProgress.cumulativeBytesLoaded /
+          //                 loadingProgress.expectedTotalBytes!
+          //             : null,
+          //       ),
+          //     );
+          //   },
+          // ),
+          child: Image(
+            image: CachedNetworkImageProvider(
+              entity.immersive_picture!,
+            ),
+          ),
         ),
         TweenAnimationBuilder(
           duration: Durations.short4,
@@ -20,24 +42,25 @@ class DetailFacility extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Kolam Renang',
-                      style:
-                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      entity.facilityName!,
+                      style: const TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Kolam Renang Nyaman PPOLLLLL',
+                      entity.parentTourism!,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         overflow: TextOverflow.clip,
                       ),
                     )
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.location_on))
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.location_on))
               ],
             ),
           ),

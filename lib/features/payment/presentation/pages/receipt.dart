@@ -2,26 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
-import 'package:kembang_belor_apps/features/payment/presentation/provider/payment/check/bloc/check_payment_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kembang_belor_apps/features/payment/presentation/provider/check/bloc/check_payment_bloc.dart';
 
 class ReceiptPage extends StatelessWidget {
   const ReceiptPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    late final User _user;
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthStates>(
-        builder: (context, state) {
-          if (state is AuthUserAuthenticated) {
-            _user = state.user;
+        builder: (context, authState) {
+          if (authState is AuthUserAuthenticated) {
             return BlocBuilder<CheckPaymentBloc, CheckPaymentState>(
               builder: (context, state) {
                 if (state is CheckPaymentSucces) {
                   return Scaffold(
                     appBar: AppBar(
-                      title: Text('Bukti Pembayaran'),
+                      title: const Text('Bukti Pembayaran'),
                     ),
                     body: Padding(
                       padding: const EdgeInsets.all(12.0),
@@ -30,11 +27,11 @@ class ReceiptPage extends StatelessWidget {
                         children: [
                           Icon(Icons.check,
                               size: 80, color: Theme.of(context).primaryColor),
-                          Text(
+                          const Text(
                             'Pembayaran Berhasil',
                             style: TextStyle(fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
@@ -48,13 +45,13 @@ class ReceiptPage extends StatelessWidget {
                               width: double.maxFinite,
                               child: Column(
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: double.infinity,
                                     height: 60,
                                     child: Card(
                                       color: Colors.blueGrey[50],
-                                      child:
-                                          Center(child: Text('Detail Pesanan')),
+                                      child: const Center(
+                                          child: Text('Detail Pesanan')),
                                     ),
                                   ),
                                   Padding(
@@ -65,39 +62,39 @@ class ReceiptPage extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Id Order'),
-                                            Text('${state.id}')
+                                            const Text('Id Order'),
+                                            Text(state.id)
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Tanggal Order'),
-                                            Text(
-                                                '${DateFormat('dd-MM-yyyy').format(state.data.date)}'),
+                                            const Text('Tanggal Order'),
+                                            Text(DateFormat('dd-MM-yyyy')
+                                                .format(state.data.date)),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Metode Pembayaran'),
+                                            const Text('Metode Pembayaran'),
                                             Text('${state.result.paymentType}'),
                                           ],
                                         ),
-                                        Divider(),
+                                        const Divider(),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Total'),
+                                            const Text('Total'),
                                             Text(
                                                 'Rp. ${state.data.qty * state.data.entity.htm!.toInt()}'),
                                           ],
@@ -109,7 +106,7 @@ class ReceiptPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed('/home');
@@ -120,13 +117,13 @@ class ReceiptPage extends StatelessWidget {
                     ),
                   );
                 }
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               },
             );
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },

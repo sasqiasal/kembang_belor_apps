@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kembang_belor_apps/core/resources/data_state/data_state.dart';
@@ -19,6 +17,7 @@ class RecentlyTourismBloc
 
   void _getRecentlyFacility(
       RecentlyFacilityFected event, Emitter<RecentlyTourismState> emit) async {
+    emit(RecentlyTourismLoading());
     final dataState = await _getRecentlyFaciliesUseCase();
 
     if (dataState is DataSuccess && dataState.data!.isNotEmpty) {

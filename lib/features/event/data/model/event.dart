@@ -1,6 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/event.dart';
 
 class EventModel extends EventEntity {
@@ -11,16 +12,18 @@ class EventModel extends EventEntity {
       required super.event_needed,
       required super.event_started,
       required super.nama_wisata,
-      required super.poster_url});
+      required super.poster_url,
+      required super.is_open});
 
   EventModel copyWith(
       {int? id,
       String? title,
       String? description,
-      List<String>? event_needed,
+      Map? event_needed,
       DateTime? event_started,
       String? nama_wisata,
-      String? poster_url}) {
+      String? poster_url,
+      bool? is_open}) {
     return EventModel(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -29,6 +32,7 @@ class EventModel extends EventEntity {
       event_started: event_started ?? this.event_started,
       nama_wisata: nama_wisata ?? this.nama_wisata,
       poster_url: poster_url ?? this.poster_url,
+      is_open: is_open ?? this.is_open,
     );
   }
 
@@ -40,7 +44,8 @@ class EventModel extends EventEntity {
       'event_needed': event_needed,
       'event_started': event_started.millisecondsSinceEpoch,
       'nama_wisata': nama_wisata,
-      'poster_url': poster_url
+      'poster_url': poster_url,
+      'is_open': is_open
     };
   }
 
@@ -49,12 +54,11 @@ class EventModel extends EventEntity {
       id: map['id'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      event_needed: List<String>.from(
-        (map['event_needed'] as List<dynamic>),
-      ),
+      event_needed: map['event_needed'],
       event_started: DateTime.parse(map['event_started']),
       nama_wisata: map['nama_wisata'] as String,
       poster_url: map['poster_url'] as String,
+      is_open: map['is_open'] as bool,
     );
   }
 
@@ -65,7 +69,7 @@ class EventModel extends EventEntity {
 
   @override
   String toString() {
-    return 'EventModel(id: $id, title: $title, description: $description, event_needed: $event_needed, event_started: $event_started, nama_wisata: $nama_wisata, poster_url: $poster_url)';
+    return 'EventModel(id: $id, title: $title, description: $description, event_needed: $event_needed, event_started: $event_started, nama_wisata: $nama_wisata, poster_url: $poster_url, is_open: $is_open)';
   }
 
   @override
@@ -75,10 +79,11 @@ class EventModel extends EventEntity {
     return other.id == id &&
         other.title == title &&
         other.description == description &&
-        listEquals(other.event_needed, event_needed) &&
+        other.event_needed == other.event_needed &&
         other.event_started == event_started &&
         other.nama_wisata == nama_wisata &&
-        other.poster_url == poster_url;
+        other.poster_url == poster_url &&
+        other.is_open == is_open;
   }
 
   @override
@@ -89,6 +94,7 @@ class EventModel extends EventEntity {
         event_needed.hashCode ^
         event_started.hashCode ^
         nama_wisata.hashCode ^
+        is_open.hashCode ^
         poster_url.hashCode;
   }
 }

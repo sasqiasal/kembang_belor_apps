@@ -2,9 +2,10 @@
     <application
         android:label="kembang_belor_apps"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:theme="@style/AppTheme"
         tools:replace="android:label,android:usesCleartextTraffic"
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true"
         android:allowBackup="false">
       

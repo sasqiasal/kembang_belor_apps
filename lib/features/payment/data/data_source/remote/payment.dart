@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'package:kembang_belor_apps/features/payment/data/models/ticket.dart';
 import 'package:kembang_belor_apps/features/payment/data/models/payment.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class GetPaymentLinkDataSource {
+class PaymentRemoteDataSource {
   final dio = Dio();
 
   Future<GetPaymentModel> getPayment(
@@ -35,7 +36,7 @@ class GetPaymentLinkDataSource {
     final dateTimeInserted = DateFormat('ddMMyyyy').format(date);
     try {
       final data = await supabase
-          .from('ticket')
+          .from('tickets')
           .select('id')
           .eq('added_at::date', dateNow)
           .order('id');
@@ -58,13 +59,48 @@ class GetPaymentLinkDataSource {
       {required String id,
       required User uuid,
       required DateTime date,
-      required int tourism}) async {
-    await supabase.from('ticket').insert({
+      required int tourism,
+      required int qty}) async {
+    await supabase.from('tickets').insert({
       'id': id,
       'user_id': uuid.id,
       'checkin_at': date.toIso8601String(),
       'added_at': DateTime.now().toIso8601String(),
-      'tourism_id': tourism
+      'tourism_id': tourism,
+      'qty': qty
     });
+  }
+
+  Future<List<TicketModel>> getHistoryPayment(String uuid) async {
+    try {
+      final data = await supabase
+          .from('view_ticket')
+          .select('*')
+          .eq('user_id', uuid)
+          .order('added_at', ascending: false);
+      List<TicketModel> listEvent =
+          data.map((e) => TicketModel.fromMap(e)).toList();
+      return listEvent;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<List<TicketModel>> getMyTicket(String uuid) async {
+    try {
+      final data = await supabase
+          .from('view_ticket')
+          .select()
+          .gte('checkin_at', DateTime.now())
+          .eq('is_checkin', false)
+          .eq('user_id', uuid)
+          .order('checkin_at', ascending: true);
+
+      List<TicketModel> listEvent =
+          data.map((e) => TicketModel.fromMap(e)).toList();
+      return listEvent;
+    } catch (e) {
+      throw e.toString();
+    }
   }
 }

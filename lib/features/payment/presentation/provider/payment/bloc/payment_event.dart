@@ -19,5 +19,5 @@ class GetPaymentLink extends PaymentEvent {
 class SavePaymentPending extends PaymentEvent {
   final TransactionResult result;
 
-  SavePaymentPending(this.result);
+  const SavePaymentPending(this.result);
 }

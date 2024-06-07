@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:kembang_belor_apps/features/home/domain/entities/tourism.dart';
 import 'package:kembang_belor_apps/features/payment/domain/entity/selected_tourism_payment.dart';
@@ -37,7 +33,7 @@ class _DetailTourimsState extends State<DetailTourims> {
               context: context,
               builder: (context) =>
                   StatefulBuilder(builder: (context, setState) {
-                    Future<void> _selectDate(BuildContext context) async {
+                    Future<void> selectDate(BuildContext context) async {
                       final DateTime? picked = await showDatePicker(
                           context: context,
                           initialDate: date,
@@ -74,7 +70,7 @@ class _DetailTourimsState extends State<DetailTourims> {
                                                   _currentValue - 1
                                               : _currentValue);
                                         },
-                                        icon: Icon(Icons.remove)),
+                                        icon: const Icon(Icons.remove)),
                                     NumberPicker(
                                       minValue: 0,
                                       maxValue: 20,
@@ -88,7 +84,7 @@ class _DetailTourimsState extends State<DetailTourims> {
                                           setState(() => _currentValue =
                                               _currentValue + 1);
                                         },
-                                        icon: Icon(Icons.add))
+                                        icon: const Icon(Icons.add))
                                   ],
                                 ),
                               ),
@@ -96,25 +92,26 @@ class _DetailTourimsState extends State<DetailTourims> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Tanggal'),
+                                  const Text('Tanggal'),
                                   TextButton(
-                                      onPressed: () => _selectDate(context),
-                                      child: Text('Pilih Tanggal'))
+                                      onPressed: () => selectDate(context),
+                                      child: const Text('Pilih Tanggal'))
                                 ],
                               ),
                               Center(
                                 child: Text(
                                   DateFormat.yMMMd().format(date),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
-                                child: ElevatedButton.icon(
-                                  icon: Text('Pesan Sekarang'),
-                                  label: Icon(Icons.check),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor),
                                   onPressed: () {
                                     Navigator.of(context).pushNamed('/payment',
                                         arguments: PaymentTourism(
@@ -122,13 +119,29 @@ class _DetailTourimsState extends State<DetailTourims> {
                                             date: date,
                                             entity: widget.entity));
                                   },
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Pesan Sekarang',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
                           ),
                         ));
                   })),
-          label: Row(
+          label: const Row(
             children: [Text('Pesan Sekarang'), Icon(Icons.navigate_next)],
           )),
       body: SafeArea(
@@ -170,17 +183,17 @@ class _DetailTourimsState extends State<DetailTourims> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 40),
+                padding: const EdgeInsets.only(left: 40),
                 child: Text('Rp. ${widget.entity.htm} per Pengunjung'),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(widget.entity.desc!),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               )
             ],

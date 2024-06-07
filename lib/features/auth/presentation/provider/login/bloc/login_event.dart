@@ -22,3 +22,9 @@ final class LoginPasswordChanged extends LoginEvent {
 final class LoginButtonPressed extends LoginEvent {}
 
 final class GoogleButtonPressed extends LoginEvent {}
+
+final class ResetPasswordPressed extends LoginEvent {
+  final String email;
+
+  const ResetPasswordPressed({required this.email});
+}
