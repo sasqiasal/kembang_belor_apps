@@ -68,11 +68,16 @@ class VendorCard extends StatelessWidget {
                     ),
                     Text(DateFormat('dd MMMM yyyy')
                         .format(entity.event_started)),
-                    Text(entity.event_needed.isNotEmpty
-                        ? entity.event_needed.length > 2
-                            ? 'Kebutuhan Event : \n${entity.event_needed.sublist(1, 3).join('\n')}'
-                            : 'Kebutuhan Event : \n${entity.event_needed.join('\n')}'
-                        : ''),
+                    Text(
+                      entity.event_needed.isNotEmpty
+                          ? entity.event_needed.entries
+                                      .where((entry) => entry.value > 0)
+                                      .length >
+                                  2
+                              ? 'Kebutuhan Event : \n${entity.event_needed.entries.where((entry) => entry.value > 0).map((entry) => entry.key).toList().sublist(1, 3).join('\n')}'
+                              : 'Kebutuhan Event : \n${entity.event_needed.entries.where((entry) => entry.value > 0).map((entry) => entry.key).toList().join('\n')}'
+                          : '',
+                    ),
                     Text.rich(TextSpan(
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.primary),

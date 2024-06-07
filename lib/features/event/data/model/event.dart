@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/event.dart';
 
 class EventModel extends EventEntity {
@@ -20,7 +19,7 @@ class EventModel extends EventEntity {
       {int? id,
       String? title,
       String? description,
-      List<String>? event_needed,
+      Map? event_needed,
       DateTime? event_started,
       String? nama_wisata,
       String? poster_url,
@@ -55,9 +54,7 @@ class EventModel extends EventEntity {
       id: map['id'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      event_needed: List<String>.from(
-        (map['event_needed'] as List<dynamic>),
-      ),
+      event_needed: map['event_needed'],
       event_started: DateTime.parse(map['event_started']),
       nama_wisata: map['nama_wisata'] as String,
       poster_url: map['poster_url'] as String,
@@ -82,7 +79,7 @@ class EventModel extends EventEntity {
     return other.id == id &&
         other.title == title &&
         other.description == description &&
-        listEquals(other.event_needed, event_needed) &&
+        other.event_needed == other.event_needed &&
         other.event_started == event_started &&
         other.nama_wisata == nama_wisata &&
         other.poster_url == poster_url &&

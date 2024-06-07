@@ -110,21 +110,46 @@ class _EventPageState extends State<EventPage>
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
+                                    // if (state.entity[index].is_open) {
+                                    //   return Padding(
+                                    //     padding: const EdgeInsets.only(top: 8),
+                                    //     child: state.entity[index].event_needed
+                                    //             .isEmpty
+                                    //         ? VendorCard(
+                                    //             entity: state.entity[index])
+                                    //         : Badge.count(
+                                    //             count: state.entity[index]
+                                    //                 .event_needed.length,
+                                    //             child: VendorCard(
+                                    //               entity: state.entity[index],
+                                    //             ),
+                                    //           ),
+                                    //   );
+                                    // }
+                                    // return const SizedBox.shrink();
                                     if (state.entity[index].is_open) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: state.entity[index].event_needed
-                                                .isEmpty
-                                            ? VendorCard(
-                                                entity: state.entity[index])
-                                            : Badge.count(
-                                                count: state.entity[index]
-                                                    .event_needed.length,
-                                                child: VendorCard(
-                                                  entity: state.entity[index],
-                                                ),
-                                              ),
-                                      );
+                                      final hasNonZeroEventNeeded = state
+                                          .entity[index].event_needed.entries
+                                          .any((entry) => entry.value != 0);
+
+                                      if (hasNonZeroEventNeeded) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8),
+                                          child: Badge.count(
+                                            count: state.entity[index]
+                                                .event_needed.entries
+                                                .where(
+                                                    (entry) => entry.value != 0)
+                                                .length,
+                                            child: VendorCard(
+                                              entity: state.entity[index],
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
                                     }
                                     return const SizedBox.shrink();
                                   },

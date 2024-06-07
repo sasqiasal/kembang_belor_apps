@@ -108,9 +108,10 @@ class _DetailTourimsState extends State<DetailTourims> {
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
-                                child: ElevatedButton.icon(
-                                  icon: const Text('Pesan Sekarang'),
-                                  label: const Icon(Icons.check),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor),
                                   onPressed: () {
                                     Navigator.of(context).pushNamed('/payment',
                                         arguments: PaymentTourism(
@@ -118,6 +119,22 @@ class _DetailTourimsState extends State<DetailTourims> {
                                             date: date,
                                             entity: widget.entity));
                                   },
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Pesan Sekarang',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             ],

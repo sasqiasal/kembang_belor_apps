@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kembang_belor_apps/features/auth/presentation/provider/auth/bloc/auth_bloc.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/event.dart';
 import 'package:kembang_belor_apps/features/event/domain/entities/vendor_collab.dart';
+import 'package:kembang_belor_apps/features/event/presentation/provider/get_event/bloc/event_bloc.dart';
 import 'package:kembang_belor_apps/features/event/presentation/provider/insert_collab/bloc/insert_collab_bloc.dart';
 
 class DetailCollabPage extends StatefulWidget {
@@ -20,8 +21,11 @@ class _DetailCollabPageState extends State<DetailCollabPage> {
   String? _event;
   final sheet = GlobalKey();
   final controller = DraggableScrollableController();
+
   @override
   Widget build(BuildContext context) {
+    final filteredEntries =
+        widget.entity.event_needed.entries.where((entry) => entry.value != 0);
     return SafeArea(
       child: Scaffold(
         body: BlocListener<InsertCollabBloc, InsertCollabState>(
@@ -33,6 +37,8 @@ class _DetailCollabPageState extends State<DetailCollabPage> {
                   content: Text('Berhasil Mendaftar'),
                 ),
               );
+              Navigator.of(context).pop();
+              context.read<EventBloc>().add(EventFetch());
             }
 
             if (state is InsertCollabFailure) {
@@ -87,13 +93,15 @@ class _DetailCollabPageState extends State<DetailCollabPage> {
                                 textAlign: TextAlign.center,
                               ),
                               ListView.builder(
-                                itemCount: widget.entity.event_needed.length,
+                                itemCount: filteredEntries.length,
                                 shrinkWrap: true,
-                                itemBuilder: (context, index) => ListTile(
-                                  title: Center(
-                                      child: Text(
-                                          widget.entity.event_needed[index])),
-                                ),
+                                itemBuilder: (context, index) {
+                                  final entry =
+                                      filteredEntries.elementAt(index);
+                                  return ListTile(
+                                    title: Center(child: Text(entry.key)),
+                                  );
+                                },
                               ),
                               ElevatedButton(
                                 onPressed: () => showDialog(
@@ -112,22 +120,23 @@ class _DetailCollabPageState extends State<DetailCollabPage> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             ListView.builder(
-                                              itemCount: widget
-                                                  .entity.event_needed.length,
+                                              itemCount: filteredEntries.length,
                                               shrinkWrap: true,
-                                              itemBuilder: (context, index) =>
-                                                  RadioListTile(
-                                                title: Text(widget.entity
-                                                    .event_needed[index]),
-                                                value: widget
-                                                    .entity.event_needed[index],
-                                                groupValue: _event,
-                                                onChanged: (value) {
-                                                  setState(
-                                                    () => _event = value,
-                                                  );
-                                                },
-                                              ),
+                                              itemBuilder: (context, index) {
+                                                final entry = filteredEntries
+                                                    .elementAt(index);
+                                                return RadioListTile(
+                                                  title: Text(entry.key),
+                                                  subtitle: Text(
+                                                      'Sisa Kuota ${entry.value}'),
+                                                  value: entry.key,
+                                                  groupValue: _event,
+                                                  onChanged: (value) {
+                                                    setState(
+                                                        () => _event = value);
+                                                  },
+                                                );
+                                              },
                                             ),
                                             Align(
                                               alignment: Alignment.bottomRight,

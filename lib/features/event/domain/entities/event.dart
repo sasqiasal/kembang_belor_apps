@@ -6,7 +6,7 @@ class EventEntity extends Equatable {
   final int id;
   final String title;
   final String description;
-  final List<dynamic> event_needed;
+  final Map event_needed;
   final DateTime event_started;
   final String nama_wisata;
   final String poster_url;
